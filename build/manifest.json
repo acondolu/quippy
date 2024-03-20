@@ -1,0 +1,23 @@
+{
+    "theme_color": "#61cd77",
+    "background_color": "#fff",
+    "display": "standalone",
+    "scope": "/quippy/",
+    "start_url": "https://acondolu.me/quippy/",
+    "name": "Quippy Expense Splitter",
+    "short_name": "Quippy",
+    "description": "",
+    "icons": [
+        {
+            "src": "./icon.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        }
+    ],
+    "handle_links": "preferred",
+    "url_handlers": [
+        {
+          "origin": "https://acondolu.me/quippy/"
+        }
+    ]
+}

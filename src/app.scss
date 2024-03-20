@@ -1,0 +1,81 @@
+$theme-colors: (
+  "primary": #61cd77,
+  "secondary": #fce585
+);
+
+// Then import Bootstrap and BootstrapVue SCSS files (order is important)
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+.btn {
+  border-radius: 1.5rem;
+}
+
+.btn-secondary {
+
+}
+
+// @media (prefers-color-scheme: light) {
+//   .btn-primary {
+//     color: white;
+//   } 
+// }
+
+.dropdown-item:hover, .dropdown-item:focus, .list-group-item-action:hover, .list-group-item-action:focus {
+  // color: #fff;
+  // background-color: #fce9da;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #202124;
+    color: #bdc1c6;
+  }
+  .text-light {
+    color: #202124 !important;
+  }
+  .list-group-item {
+    background-color: #202124;
+  }
+  .list-group-item-action {
+    color: #bdc1c6;
+  }
+  .dropdown-menu {
+    background-color: black;
+  }
+  .dropdown-item {
+    color: #bdc1c6;
+  }
+  .btn-outline-light:hover {
+    background-color: #202124;
+    color: #bdc1c6;
+  }
+  .form-control, .custom-select, .table, .card {
+    background-color: #202124;
+    color: #bdc1c6;
+  }
+
+  
+  table {
+    border-color: black;
+  }
+}
+
+.btn-outline-light {
+  border-color: #202124 !important;
+  color: #202124;
+}
+
+.navbar-dark .navbar-toggler {
+  color: rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark .navbar-brand, .navbar {
+  color: #202124 !important;
+}
+
+.card-header {
+  background-color: #61cd77;
+  color: #202124;
+}
