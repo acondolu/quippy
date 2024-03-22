@@ -10,27 +10,11 @@
     </b-navbar>
       <div class="m-4">
           <b-form-group
-            label="Broker:"
+            label="Token:"
             label-cols-sm="2"
             label-align-sm="right"
           >
-            <b-form-input v-model="relayAddress" disabled></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="ID:"
-            label-cols-sm="2"
-            label-align-sm="right"
-          >
-            <b-form-input v-model="id"></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="Key:"
-            label-cols-sm="2"
-            label-align-sm="right"
-          >
-            <b-form-input v-model="key"></b-form-input>
+            <b-form-input v-model="token"></b-form-input>
           </b-form-group>
 
           <b-form-group
@@ -50,46 +34,40 @@ import { Client, Clients } from "../Ledger/Client";
 import { Ledgers } from "../Ledger/Ledger";
 
 export function makeJoinLink(client: Client): string {
-  const loc = window.location;
-  let jd = btoa(JSON.stringify({
+  return btoa(JSON.stringify({
     relayAddress: client.relayAddress,
     id: client.id,
     key: client.key,
   }));
-  return `${loc.protocol}//${loc.host}${loc.pathname}#/join/${jd}`;
 }
 
 export default Vue.extend({
   data() {
-    let jd: string | null = null;
+    let token: string = "";
     if (window.location.hash.startsWith("#/join/")) {
-      jd = window.location.hash.substring(7);
+      token = window.location.hash.substring(7);
     }
-    let relayAddress = "wss://ws.acondolu.me" as string;
-    let id = "" as string;
-    let key = "" as string;
-    if (jd) {
-      const obj = JSON.parse(atob(jd));
-      relayAddress = obj.relayAddress;
-      id = obj.id;
-      key = obj.key;
-    }
-    return {relayAddress, id, key, jd};
+    return {token};
   },
   mounted() {
-    if (this.jd) {
+    if (this.token) {
       this.onClick();
     }
   },
   methods: {
     async onClick() {
-      if (this.id.length != 36 || this.key.length == 0) {
+      if (!this.valid) return;
+      const obj = JSON.parse(atob(this.token));
+      // const relayAddress = obj.relayAddress;
+      const id = obj.id;
+      const key = obj.key;
+      if (id.length != 36 || key.length == 0) {
         // FIXME: better checks
         return;
       }
-      const ledger = Ledgers.add(this.id, this.key);
+      const ledger = Ledgers.add(id, key);
       await Clients.register(ledger);
-      this.$router.push({name: "ledger", params: {id: this.id}});
+      this.$router.push({name: "ledger", params: {id: id}});
     },
     back() {
       this.$router.push({name: "list"});
@@ -97,7 +75,7 @@ export default Vue.extend({
   },
   computed: {
     valid(): any {
-      return this.relayAddress && this.id && this.key;
+      return this.token && this.token.length > 0;
     },
   },
 

@@ -50,6 +50,12 @@ export namespace Clients {
   export function all(): Client[] {
     return Array.from(CLIENTS.values());
   }
+
+  export function del(client: Client) {
+    const ledgerId: UUID = client.id;
+    Ledgers.del(ledgerId);
+    CLIENTS.delete(ledgerId);
+  }
 }
 
 /**

@@ -8,7 +8,11 @@ export namespace Ledgers {
   }
 
   export function del(ledgerId: UUID): void {
-    throw Error("Ledgers.del: STUB")
+    let ids = getItem("ledger-app-list", pArray(pString)) || [];
+    console.log(ids);
+    ids = ids.filter((id: UUID) => id != ledgerId);
+    console.log(ids, ledgerId);
+    setItem("ledger-app-list", ids);
   }
 
   export function add(

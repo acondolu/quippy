@@ -33,7 +33,7 @@
         <b-form-input :value="key" disabled></b-form-input>
       </b-form-group>
       <b-form-group
-        label="Join URL:"
+        label="Join Token:"
         label-cols-sm="2"
         label-align-sm="right"
       >
@@ -95,6 +95,10 @@
           <b-icon icon="save"/>
           Save
         </b-button>
+        <b-button @click="onDelete" variant="danger" class="ml-1">
+          <b-icon icon="trash"/>
+          Delete
+        </b-button>
       </b-form-group>
     </div>
   </div>
@@ -126,10 +130,14 @@ export default Vue.extend({
   methods: {
     onClick() {
       this.client.update(this.name, this.description, this.participants, this.user || null);
-      this.$router.push({name: "ledger", params: {id: this.id}});
+      this.$router.replace({name: "ledger", params: {id: this.id}});
+    },
+    onDelete() {
+      Clients.del(this.client);
+      this.$router.replace({name: "list"});
     },
     back() {
-      this.$router.push({ name: 'ledger', params: {id: this.id}});
+      this.$router.replace({ name: 'ledger', params: {id: this.id}});
     },
     userAdd() {
       const u = this.userAddContent.trim();
