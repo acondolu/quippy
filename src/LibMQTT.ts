@@ -1,5 +1,5 @@
 import MQTT from "mqtt";
-import { b64decode, b64encode } from "./Ledger/Utils";
+import { b64encode } from "./Ledger/Utils";
 
 type State = "WAIT" | "OPEN" | "CONN" | "DONE";
 
@@ -40,7 +40,7 @@ export default class Room implements EventTarget {
     client.on("error", () => this.doError(new Event("error")));
     client.on("message", (_topic, data) => {
       console.log("recv", data);
-      const event = new MessageEvent("message", {data: b64decode(data.toString())}) as MessageEvent;
+      const event = new MessageEvent("message", {data: data as Uint8Array}) as MessageEvent;
       return this.fire(event, this.listenMessage);
     });
     this.client = client;
@@ -73,9 +73,8 @@ export default class Room implements EventTarget {
   }
 
   send(data: Uint8Array): void {
-    console.log("send", this.state, data);
     if (this.state == "CONN") {
-      this.client.publish(this.topic, b64encode(data));
+      this.client.publish(this.topic, data as Buffer);
     }
   }
 
