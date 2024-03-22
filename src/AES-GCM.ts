@@ -4,6 +4,14 @@ export default class AES_GCM {
     this.key = key;
   }
 
+  static async importKey(keyData: Uint8Array): Promise<AES_GCM> {
+    const key = await crypto.subtle.importKey("raw", keyData, "AES-GCM", true, [
+      "encrypt",
+      "decrypt",
+    ]);
+    return new AES_GCM(key);
+  }
+
   async encryptMessage(msg: Uint8Array): Promise<Uint8Array> {
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
     const ciphertext = await window.crypto.subtle.encrypt(

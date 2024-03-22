@@ -1,6 +1,6 @@
 import {Ledgers, Ledger, Transaction } from "./Ledger";
 import Room from "../LibMQTT";
-import AESGCM from "../AES-GCM";
+import AES_GCM from "../AES-GCM";
 import { UUID, getDeviceID, roomIdOfLegerId, type WithTs, Origin, type UserID, b64encode } from "./Utils";
 
 
@@ -8,6 +8,9 @@ import { UUID, getDeviceID, roomIdOfLegerId, type WithTs, Origin, type UserID, b
 export namespace Clients {
   const CLIENTS: Map<string, Client> = new Map();
 
+  /**
+   * Initialize all clients and cache them.
+   */
   export async function init(): Promise<void> {
     const ledgers = Ledgers.lst();
     for (let ledger of ledgers) {
@@ -61,7 +64,7 @@ export namespace Clients {
 */
 export class Client {
   private broadcastTimeout?: number;
-  private crypto?: AESGCM;
+  private crypto?: AES_GCM;
   private ledger: Ledger;
   private room?: Room;
   private deviceId: string;
@@ -91,11 +94,7 @@ export class Client {
    * Initialise crypto and WebSocket.
    */
   async init() {
-    const key = await crypto.subtle.importKey("raw", this.ledger.key, "AES-GCM", true, [
-      "encrypt",
-      "decrypt",
-    ]);
-    this.crypto = new AESGCM(key);
+    this.crypto = await AES_GCM.importKey(this.ledger.key);
     const room_id = roomIdOfLegerId(this.ledger.ledgerId);
     const room = new Room(this.ledger.relayAddress, room_id);
     room.addEventListener("open", () => this.onOpen());

@@ -69,7 +69,21 @@ export function roomIdOfLegerId(data: UUID): Uint8Array {
   return new TextEncoder().encode(data);
 }
 
+/**
+ * Origin of a change (either local or remote).
+ * Used to track where a change originates from,
+ * so to propagate it correctly
+ * (e.g. propagate remotely a local change,
+ * propagate locally a remote change).
+ */
 export enum Origin {
+  /**
+   * Change originated by local user (e.g. UI).
+   */
   LOCAL,
+  /**
+   * Change originated by remote user and received
+   * from the network.
+   */
   REMOTE,
 }; 
