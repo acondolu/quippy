@@ -1,5 +1,3 @@
-// https://github.com/mdn/dom-examples/blob/main/web-crypto/encrypt-decrypt/aes-gcm.js
-
 export default class AES_GCM {
   key: CryptoKey;
   constructor(key: CryptoKey) {
@@ -34,7 +32,6 @@ export default class AES_GCM {
       ciphertext
     );
     return new Uint8Array(decrypted);
-    // return new TextDecoder().decode(decrypted);
   }
 
 }

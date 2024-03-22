@@ -1,4 +1,5 @@
-import { UserID, UUID, getItem, pArray, b64decode, pString, b64encode, setItem, type WithTs, withTs, Origin } from "./Utils";
+import { UserID, UUID, getItem, b64decode, b64encode, setItem, type WithTs, withTs, Origin } from "./Utils";
+import { pArray, pString, } from "./JSON";
 
 export namespace Ledgers {
   export function lst(): Ledger[] {
@@ -122,6 +123,7 @@ export class Ledger {
     this.name = obj.name;
     this.description = obj.description;
     let p = pArray((x: any) => {
+      // FIXME: validation
       return x as [UserID, WithTs<string>];
     });
     this.participants = new Map(p(obj.participants));

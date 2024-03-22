@@ -21,7 +21,7 @@
     </b-list-group>
     <b-navbar type="light" variant="primary">
       <div class="text-white text-center" style="font-size: 0.8em;">
-        <a href="https://github.com/acondolu/quippy" target="_blank">Licensed under GNU GPLv3.</a>
+        <a href="https://github.com/acondolu/quippy" target="_blank">Licensed under GNU GPLv3</a>
       </div>
     </b-navbar>
   </div>
