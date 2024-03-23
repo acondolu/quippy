@@ -36,7 +36,6 @@ if (window.location.hash.startsWith("#/join/")) {
 }
 
 function main() {
-  console.log("main");
   new Vue({
     router,
     render(createElement) {

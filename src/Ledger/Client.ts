@@ -175,15 +175,10 @@ export class Client {
       console.log("bad message");
       return;
     }
-    console.log("onMessage", data);
     const obj: RemoteMessage = JSON.parse(new TextDecoder("utf-8").decode(data));
-    console.log("onMessage", obj);
-    // TODO: do something with the message
     if (obj.device == this.deviceId) {
-      console.log("ignoring");
       return;
     }
-    console.log("not ignoring!");
     switch (obj.tag) {
       case "set-item": {
         this.ledger.setItem(new Transaction(obj.item), Origin.REMOTE);
@@ -197,11 +192,10 @@ export class Client {
       }
       case "broadcast": {
         this.ledger.updateTs(obj.name, obj.description, obj.participants);
-        console.log(obj);
         return; // TODO
       }
       case "get-items": {
-        console.log(obj);
+        console.log("get-items", obj);
         return; // TODO
       }
       case "hello": {

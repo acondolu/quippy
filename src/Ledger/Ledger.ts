@@ -9,9 +9,7 @@ export namespace Ledgers {
 
   export function del(ledgerId: UUID): void {
     let ids = getItem("ledger-app-list", pArray(pString)) || [];
-    console.log(ids);
     ids = ids.filter((id: UUID) => id != ledgerId);
-    console.log(ids, ledgerId);
     setItem("ledger-app-list", ids);
   }
 

@@ -24,14 +24,11 @@ export default class Room implements EventTarget {
     const client = MQTT.connect(this.broker);
     client.on("connect", () => {
       this.state = "OPEN";
-      console.log("on connect", arguments);
       this.client.subscribe(this.topic + "#", (err) => {
         if (err) {
-          console.log("subscribe error:", err);
           this.doError(new Event("error"));
           return;
         }
-        console.log("subscribe okay");
         this.state = "CONN";
         return this.fire(new Event("open"), this.listenOpen);
       })
@@ -39,7 +36,6 @@ export default class Room implements EventTarget {
     client.on("close", () => this.doClose());
     client.on("error", () => this.doError(new Event("error")));
     client.on("message", (_topic, data) => {
-      console.log("recv", data);
       const event = new MessageEvent("message", {data: data as Uint8Array}) as MessageEvent;
       return this.fire(event, this.listenMessage);
     });

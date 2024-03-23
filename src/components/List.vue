@@ -21,7 +21,10 @@
     </b-list-group>
     <b-navbar type="light" variant="primary">
       <div class="text-white text-center" style="font-size: 0.8em;">
-        <a href="https://github.com/acondolu/quippy" target="_blank">Licensed under GNU GPLv3</a>
+        <a href="https://github.com/acondolu/quippy" target="_blank" class="text-white">Licensed under GNU GPLv3</a>
+      </div>
+      <div class="text-white text-center ml-2" style="font-size: 0.8em;">
+        {{ gitHash }}
       </div>
     </b-navbar>
   </div>
@@ -69,6 +72,13 @@ export default Vue.extend({
       const ret = this.clients.slice();
       ret.sort((a, b) => a.name.localeCompare(b.name));
       return ret;
+    },
+    gitHash(): string {
+      const h = process.env.VUE_APP_GIT_HASH;
+      if (h) {
+        return `(${h})`;
+      }
+      return "";
     }
   },
 });
