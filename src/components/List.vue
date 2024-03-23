@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="lg" variant="primary">
       <img src="icon.png" width="64">
-      <div class="h1">
+      <div class="h1 mr-lg-2 ml-lg-2">
         Quippy
       </div>
       <b-dropdown text="Add" right>
