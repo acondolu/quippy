@@ -133,6 +133,8 @@ export default Vue.extend({
       this.$router.replace({name: "ledger", params: {id: this.id}});
     },
     onDelete() {
+      const resp = confirm(`Really delete "${this.name}"?`);
+      if (!resp) return;
       Clients.del(this.client);
       this.$router.replace({name: "list"});
     },

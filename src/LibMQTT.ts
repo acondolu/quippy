@@ -19,13 +19,13 @@ export default class Room implements EventTarget {
    */
   constructor(broker: string, topic: Uint8Array) {
     this.broker = broker;
-    this.topic = "ledgerapp/" + b64encode(topic);
+    this.topic = "ledgerapp/" + b64encode(topic) + "/";
     this.state = "WAIT";
     const client = MQTT.connect(this.broker);
     client.on("connect", () => {
       this.state = "OPEN";
       console.log("on connect", arguments);
-      this.client.subscribe(this.topic, (err) => {
+      this.client.subscribe(this.topic + "#", (err) => {
         if (err) {
           console.log("subscribe error:", err);
           this.doError(new Event("error"));
@@ -72,9 +72,10 @@ export default class Room implements EventTarget {
     });
   }
 
-  send(data: Uint8Array): void {
+  send(data: Uint8Array, topic?: string): void {
     if (this.state == "CONN") {
-      this.client.publish(this.topic, data as Buffer);
+      let topic2 = topic ? this.topic + topic : this.topic;
+      this.client.publish(topic2, data as Buffer, { retain: topic ? true : false });
     }
   }
 

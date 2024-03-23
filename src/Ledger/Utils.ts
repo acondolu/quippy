@@ -43,7 +43,6 @@ export function withTs<A>(content: A, timestamp?: number): WithTs<A> {
 export function setItem(key: string, value: any): boolean {
   let previous = localStorage.getItem(key);
   let target = JSON.stringify(value);
-  console.log("setItem", previous == target, previous, target)
   if (previous != target) {
     localStorage.setItem(key, target);
     return true;

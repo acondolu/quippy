@@ -159,8 +159,8 @@ export class Client {
 
   private async send(obj: RemoteMessage): Promise<void> {
     const msg = new TextEncoder().encode(JSON.stringify(obj));
-    console.log("send", obj);
-    this.room!.send(await this.crypto!.encryptMessage(msg));
+    const tag = obj.tag == 'broadcast' || obj.tag == 'send-items' ? obj.tag : undefined;
+    this.room!.send(await this.crypto!.encryptMessage(msg), obj.tag);
   }
 
   //
