@@ -199,6 +199,7 @@ export class Ledger {
           c.content = p.text.content;
         }
       } else {
+        changed = true;
         this.participants.set(p.value, p.text);
       }
     }

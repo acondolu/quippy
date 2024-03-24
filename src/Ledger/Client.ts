@@ -160,7 +160,7 @@ export class Client {
   private async send(obj: RemoteMessage): Promise<void> {
     const msg = new TextEncoder().encode(JSON.stringify(obj));
     const tag = obj.tag == 'broadcast' || obj.tag == 'send-items' ? obj.tag : undefined;
-    this.room!.send(await this.crypto!.encryptMessage(msg), obj.tag);
+    this.room!.send(await this.crypto!.encryptMessage(msg), tag);
   }
 
   //
@@ -176,6 +176,7 @@ export class Client {
       return;
     }
     const obj: RemoteMessage = JSON.parse(new TextDecoder("utf-8").decode(data));
+    console.log("onMessage", obj, obj.device == this.deviceId);
     if (obj.device == this.deviceId) {
       return;
     }

@@ -14,7 +14,7 @@
         label-cols-sm="2"
         label-align-sm="right"
       >
-        <b-form-input v-model="description" placeholder="New Item"></b-form-input>
+        <b-form-input v-model="description" placeholder="New Item" :state="description != ''"></b-form-input>
       </b-form-group>
       <b-form-group
         label="Amount:"
@@ -56,9 +56,13 @@ import { UserID } from "../Ledger/Utils";
 import { Parser } from "expr-eval";
 
 function evalN(s: string): number | null {
-  const parser = new Parser();
-  let expr = parser.parse(s);
-  return expr.evaluate({});
+  try {
+    const parser = new Parser();
+    let expr = parser.parse(s);
+    return expr.evaluate({});
+  } catch {
+    return null;
+  }
 }
 
 export default Vue.extend({
