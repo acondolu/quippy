@@ -21,7 +21,7 @@
         label-cols-sm="2"
         label-align-sm="right"
       >
-        <b-form-input v-model="amount"></b-form-input>
+        <b-form-input v-model="amount" :state="evalAmount != null"></b-form-input>
       </b-form-group>
       <b-form-group
         label="Paid by:"
@@ -53,6 +53,13 @@
 import Vue from "vue";
 import { Clients } from "../Ledger/Client";
 import { UserID } from "../Ledger/Utils";
+import { Parser } from "expr-eval";
+
+function evalN(s: string): number | null {
+  const parser = new Parser();
+  let expr = parser.parse(s);
+  return expr.evaluate({});
+}
 
 export default Vue.extend({
   props: {
@@ -83,8 +90,9 @@ export default Vue.extend({
   },
   methods: {
     onClick() {
+      if (this.evalAmount == null) return;
       const item = this.item;
-      item.update(this.description, +this.amount, this.currency, this.paidBy, this.paidFor, new Array(this.paidFor.length).fill(1));
+      item.update(this.description, this.evalAmount, this.currency, this.paidBy, this.paidFor, new Array(this.paidFor.length).fill(1));
       this.client.setItem(item);
       this.$router.push({ name: 'ledger', params: {id: this.ledgerId}});
     },
@@ -94,8 +102,11 @@ export default Vue.extend({
   },
   computed: {
     disabled(): boolean {
-      return !this.amount || isNaN(+this.amount) || !this.paidBy || !this.description;
+      return this.evalAmount == null || !this.paidBy || !this.description;
     },
+    evalAmount(): number | null {
+      return evalN(this.amount);
+    }
   },
 });
 </script>
