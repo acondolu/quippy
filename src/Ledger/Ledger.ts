@@ -312,7 +312,7 @@ export class Transaction {
   constructor(obj: TransactionJSON) {
     this.id = obj.id;
     this.description = obj.description;
-    if (obj.amount.content == null || isNaN(obj.amount.content)) {
+    if (typeof(obj.amount.content) !== "number" || isNaN(obj.amount.content)) {
       obj.amount.content = 0.0;
     }
     this.amount = obj.amount;
