@@ -59,7 +59,8 @@ function evalN(s: string): number | null {
   try {
     const parser = new Parser();
     let expr = parser.parse(s);
-    return expr.evaluate({});
+    let res = expr.evaluate({});
+    return isNaN(res) ? null : res;
   } catch {
     return null;
   }
