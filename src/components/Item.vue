@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <div><strong>{{item.description.content}}</strong></div>
-      <div><strong>{{ item.amount.content }} {{ item.currency.content }}</strong></div>
+      <div><strong>{{ round(item.amount.content) }} {{ item.currency.content }}</strong></div>
     </div>
     <div class="col text-right">
       <div>paid by {{paidBy}}</div>
@@ -15,6 +15,7 @@
 import Vue, {PropType} from "vue";
 import { Client } from "../Ledger/Client";
 import {Transaction} from "../Ledger/Ledger";
+import { round } from "../Ledger/Utils";
 
 export default Vue.extend({
   props: {
@@ -26,6 +27,9 @@ export default Vue.extend({
       if (!x) return "<???>";
       return JSON.stringify(x.toJSON());
     },
+    round(x: number): number {
+      return round(x);
+    }
   },
   computed: {
     paidBy(): string {

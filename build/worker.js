@@ -28,7 +28,26 @@ async function cacheFirstWithRefresh(request) {
 }
 
 self.addEventListener("fetch", (event) => {
+  console.log("fetch", event.request.url);
   if (isCacheable(event.request)) {
     event.respondWith(cacheFirstWithRefresh(event.request));
   }
+});
+
+self.addEventListener("install", (e) => {
+  console.log("[Service Worker] Install");
+});
+
+self.addEventListener("message", (e) => {
+  if (!e.data.type != "reload") return;
+  console.log("service worker: reload");
+  e.waitUntil(
+    caches.keys().then((keyList) => {
+      return Promise.all(
+        keyList.map((key) => {
+          return caches.delete(key);
+        }),
+      );
+    }),
+  );
 });

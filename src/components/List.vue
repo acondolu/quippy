@@ -24,7 +24,7 @@
         <a href="https://github.com/acondolu/quippy" target="_blank" class="text-white">Licensed under GNU GPLv3</a>
       </div>
       <div class="text-white text-center ml-2" style="font-size: 0.8em;">
-        {{ gitHash }}
+        <a @click="reload" class="text-white">{{ gitHash }}</a>
       </div>
     </b-navbar>
   </div>
@@ -62,6 +62,16 @@ export default Vue.extend({
       const ledger = Ledgers.add(undefined, undefined, "Untitled Group", " ");
       await Clients.register(ledger);
       this.$router.push({name: "metadata", params: {id: ledger.id}});
+    },
+    reload() {
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+          type: 'reload',
+        });
+        console.log("reload");
+      } else {
+        console.log("reload failed");
+      }
     },
   },
   computed: {

@@ -32,7 +32,7 @@
 import Vue from "vue";
 import { Clients } from "../Ledger/Client";
 import { Transaction } from "../Ledger/Ledger";
-import { WithTs } from "../Ledger/Utils";
+import { WithTs, round } from "../Ledger/Utils";
 
 function reimbursements(pays: Map<string, number>): [string, string, number][] | undefined {
   const res: [string, string, number][] = [];
@@ -50,7 +50,7 @@ function reimbursements(pays: Map<string, number>): [string, string, number][] |
     if (Math.abs(M) < 0.01 || Math.abs(m) <= 0.01) break;
     pays.set(Mu, Math.max(M+m, 0));
     pays.set(mu, Math.min(M+m, 0));
-    res.push([mu, Mu, Math.min(M, -m)]);
+    res.push([mu, Mu, round(Math.min(M, -m))]);
   }
   return res;
 }
@@ -104,7 +104,7 @@ export default Vue.extend({
   computed: {
     items(): any[] {
       console.log("computed", this.sums);
-      return Array.from(this.sums.entries()).map(([name, amount]) => ({name: name, paid: amount + "€"}));
+      return Array.from(this.sums.entries()).map(([name, amount]) => ({name: name, paid: round(amount) + "€"}));
     }
   },
 });

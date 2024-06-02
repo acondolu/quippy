@@ -69,6 +69,10 @@ export function roomIdOfLegerId(data: UUID): Uint8Array {
   return new TextEncoder().encode(data);
 }
 
+export function round(n: number): number {
+  return Math.round((+n)*100.0) / 100.0;
+}
+
 /**
  * Origin of a change (either local or remote).
  * Used to track where a change originates from,
