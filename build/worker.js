@@ -1,53 +1,53 @@
-const cacheName = "MyCache_1";
-// const precachedResources = ["/", "/app.js", "/style.css"];
+const RUNTIME = 'runtime';
 
-// async function precache() {
-//   const cache = await caches.open(cacheName);
-//   return cache.addAll(precachedResources);
-// }
-
-// self.addEventListener("install", (event) => {
-//   event.waitUntil(precache());
-// });
-
-function isCacheable(request) {
-  const url = new URL(request.url);
-  return !url.pathname.endsWith(".json");
-}
-
-async function cacheFirstWithRefresh(request) {
-  const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
-    if (networkResponse.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
-    }
-    return networkResponse;
-  });
-
-  return (await caches.match(request)) || (await fetchResponsePromise);
-}
-
-self.addEventListener("fetch", (event) => {
-  console.log("fetch", event.request.url);
-  if (isCacheable(event.request)) {
-    event.respondWith(cacheFirstWithRefresh(event.request));
-  }
-});
-
-self.addEventListener("install", (e) => {
-  console.log("[Service Worker] Install");
-});
-
-self.addEventListener("message", (e) => {
-  if (!e.data.type != "reload") return;
-  console.log("service worker: reload");
-  e.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
-        keyList.map((key) => {
-          return caches.delete(key);
-        }),
-      );
-    }),
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return cacheNames.filter(
+          (cacheName) => cacheName != RUNTIME
+        );
+      })
+      .then((cachesToDelete) => {
+        return Promise.all(
+          cachesToDelete.map((cacheToDelete) => {
+            return caches.delete(cacheToDelete);
+          })
+        );
+      })
+      .then(() => self.clients.claim())
   );
+});
+
+async function myfetch(request) {
+  const cache = await caches.open(RUNTIME);
+  const cachedResponse = await cache.match(request);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
+
+  const response = await fetch(request);
+  await cache.put(request, response.clone());
+  return response;
+}
+
+self.addEventListener("fetch", (event) =>
+  event.respondWith(myfetch(event.request))
+);
+
+async function refreshCache() {
+  const cache = await caches.open(RUNTIME);
+  for (let req of await cache.keys()) {
+    let req2 = req.clone();
+    const resp = await fetch(req2);
+    await cache.put(req2, resp);
+  }
+}
+
+self.addEventListener('message', function(event) {
+  if (event.data.type == "reload") {
+    console.log("refreshCache");
+    event.waitUntil(refreshCache());
+  }
 });
