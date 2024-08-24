@@ -9,7 +9,7 @@
     <b-alert variant="info" show>
       <div>
         To join an existing expense list, ask somebody to share with you the 
-        <i>join token</i> (it is a long string of letters and numbers,
+        <i>join token string</i> (it is a long string of letters and numbers,
         and can be found in the <i>Settings</i> of a list).
         Paste the token below.
       </div>

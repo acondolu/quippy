@@ -27,6 +27,19 @@
       </b-navbar-nav>
     </b-collapse>
     </b-navbar>
+    <b-alert variant="danger" :show="state != 'open'">
+      <div>
+        <b-spinner small></b-spinner>
+        Trying to reconnect to the server...
+        Please check your internet connection ⚡️
+      </div>
+      <div>
+        Changes will not be synchronized
+        with other participants
+        (and viceversa)
+        until the app reconnects to the server.
+      </div>
+    </b-alert>
     <b-list-group>
       <b-list-group-item
         v-for="item in items"
