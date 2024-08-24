@@ -6,17 +6,30 @@
         Quippy
       </div>
       <b-dropdown text="Add" right>
-        <b-dropdown-item @click="newLedger">New</b-dropdown-item>
-        <b-dropdown-item :to="{name: 'join'}">Join existing</b-dropdown-item>
+        <b-dropdown-item @click="newLedger">
+          New Expense List
+        </b-dropdown-item>
+        <b-dropdown-item @click="joinLedger">
+          Join Existing
+        </b-dropdown-item>
       </b-dropdown>
     </b-navbar>
     <b-list-group>
       <b-list-group-item
         v-for="client in clientsSorted"
         :to="{ name: 'ledger', params: {id: client.id}}"
+        :key="client.id"
       >
         <h6> {{ client.name }} </h6>
         <small> {{ client.description }} </small>
+      </b-list-group-item>
+      <b-list-group-item v-if="clientsSorted.length == 0" disabled>
+        <div>
+          There are no expense lists yet.
+        </div>
+        <div>
+          Use the <b>Add</b> button above.
+        </div>
       </b-list-group-item>
     </b-list-group>
     <b-navbar type="light" variant="primary">
@@ -59,9 +72,12 @@ export default Vue.extend({
       this.clients = Clients.all();
     },
     async newLedger() {
-      const ledger = Ledgers.add(undefined, undefined, "Untitled Group", " ");
+      const ledger = Ledgers.add(undefined, undefined, "Untitled List", " ");
       await Clients.register(ledger);
       this.$router.push({name: "metadata", params: {id: ledger.id}});
+    },
+    async joinLedger() {
+      this.$router.push({name: 'join'});
     },
     reload() {
       if (navigator.serviceWorker.controller) {

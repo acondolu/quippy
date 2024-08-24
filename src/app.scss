@@ -7,6 +7,12 @@ $theme-colors: (
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
 @import 'node_modules/bootstrap-vue/src/index.scss';
 
+$my-dark-muted: rgb(108, 117, 125);
+
+.alert {
+  border-radius: 0;
+}
+
 .btn {
   border-radius: 1.5rem;
 }
@@ -31,11 +37,20 @@ $theme-colors: (
     background-color: #202124;
     color: #bdc1c6;
   }
+
+  hr {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
   .text-light {
     color: #202124 !important;
   }
-  .list-group-item {
+  .list-group-item, .list-group-item.disabled {
     background-color: #202124;
+  }
+  .b-form-tags.focus, .b-form-tags-input {
+    background-color: #202124;
+    color: #bdc1c6;
   }
   .list-group-item-action {
     color: #bdc1c6;
@@ -53,6 +68,12 @@ $theme-colors: (
   .form-control, .custom-select, .table, .card {
     background-color: #202124;
     color: #bdc1c6;
+  }
+
+  .form-control:disabled {
+    background-color: #202124;
+    color: $my-dark-muted;
+    border-color: $my-dark-muted;
   }
 
   
