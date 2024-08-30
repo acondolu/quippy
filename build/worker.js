@@ -1,4 +1,4 @@
-const RUNTIME = 'runtime-v2';
+const RUNTIME = 'runtime-v3';
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -20,7 +20,16 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+function cacheOkay(request) {
+  var url = request.url;
+  if (url.startsWith("https://acondolu.me/quippy/")) return true;
+  return false;
+}
+
 async function myfetch(request) {
+  if (!cacheOkay(request)) {
+    return await fetch(request);
+  }
   const cache = await caches.open(RUNTIME);
   const cachedResponse = await cache.match(request);
   if (cachedResponse) {
@@ -47,7 +56,7 @@ async function refreshCache() {
 
 self.addEventListener('message', function(event) {
   if (event.data.type == "reload") {
-    console.log("refreshCache");
+    console.log("worker.reload: refreshCache");
     event.waitUntil(refreshCache());
   }
 });

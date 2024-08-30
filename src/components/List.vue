@@ -37,7 +37,7 @@
         <a href="https://github.com/acondolu/quippy" target="_blank" class="text-white">Licensed under GNU GPLv3</a>
       </div>
       <div class="text-white text-center ml-2" style="font-size: 0.8em;">
-        <a @click="reload" class="text-white">{{ gitHash }}</a>
+        {{ gitHash }}
       </div>
     </b-navbar>
   </div>
@@ -78,16 +78,6 @@ export default Vue.extend({
     },
     async joinLedger() {
       this.$router.push({name: 'join'});
-    },
-    reload() {
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-          type: 'reload',
-        });
-        console.log("reload");
-      } else {
-        console.log("reload failed");
-      }
     },
   },
   computed: {
