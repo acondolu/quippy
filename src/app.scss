@@ -100,3 +100,10 @@ $my-dark-muted: rgb(108, 117, 125);
   background-color: #61cd77;
   color: #202124;
 }
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  justify-content: space-around !important;
+}

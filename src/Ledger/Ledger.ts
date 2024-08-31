@@ -1,5 +1,6 @@
 import { UserID, UUID, getItem, b64decode, b64encode, setItem, type WithTs, withTs, Origin } from "./Utils";
 import { pArray, pString, } from "./JSON";
+import {s} from "../L10n";
 
 export namespace Ledgers {
   export function lst(): Ledger[] {
@@ -36,7 +37,7 @@ export namespace Ledgers {
     }
     let descriptionTs;
     if (!description) {
-      descriptionTs = withTs("Sync in progress", 0);
+      descriptionTs = withTs(s("Sync in progress"), 0);
     } else {
       descriptionTs = withTs(description, now);
     }

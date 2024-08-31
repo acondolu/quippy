@@ -5,12 +5,12 @@
       <div class="h1 mr-lg-2 ml-lg-2">
         Quippy
       </div>
-      <b-dropdown text="Add" right>
+      <b-dropdown :text="s('Add')" right>
         <b-dropdown-item @click="newLedger">
-          New Expense List
+          {{ s('New Expense List') }}
         </b-dropdown-item>
         <b-dropdown-item @click="joinLedger">
-          Join Existing
+          {{ s('Join Existing') }}
         </b-dropdown-item>
       </b-dropdown>
     </b-navbar>
@@ -25,18 +25,15 @@
       </b-list-group-item>
       <b-list-group-item v-if="clientsSorted.length == 0" disabled>
         <div>
-          There are no expense lists yet.
-        </div>
-        <div>
-          Use the <b>Add</b> button above.
+          {{ s("There are no expense lists yet") }} 🥲
         </div>
       </b-list-group-item>
     </b-list-group>
-    <b-navbar type="light" variant="primary">
+    <b-navbar type="light" variant="primary" class="fixed-bottom">
       <div class="text-white text-center" style="font-size: 0.8em;">
-        <a href="https://github.com/acondolu/quippy" target="_blank" class="text-white">Licensed under GNU GPLv3</a>
-      </div>
-      <div class="text-white text-center ml-2" style="font-size: 0.8em;">
+        <a href="https://github.com/acondolu/quippy" target="_blank" class="text-white">
+          {{ s('Licensed under GNU GPLv3') }}
+        </a>
         {{ gitHash }}
       </div>
     </b-navbar>
@@ -47,6 +44,7 @@
 import Vue from "vue";
 import { Ledgers } from "../Ledger/Ledger";
 import { type Client, Clients } from "../Ledger/Client";
+import {s} from "../L10n";
 
 export default Vue.extend({
   data: () => {
@@ -79,6 +77,9 @@ export default Vue.extend({
     async joinLedger() {
       this.$router.push({name: 'join'});
     },
+    s(str: string): string {
+      return s(str);
+    }
   },
   computed: {
     /**
@@ -92,7 +93,7 @@ export default Vue.extend({
     gitHash(): string {
       const h = process.env.VUE_APP_GIT_HASH;
       if (h) {
-        return `(${h})`;
+        return ` · ${s('Version')} ${h}`;
       }
       return "";
     }

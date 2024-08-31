@@ -1,33 +1,16 @@
 <template>
   <div>
     <b-navbar type="dark" variant="primary" toggleable="lg">
-      <b-button variant="primary" @click="back">
-        <b-icon icon="arrow-return-left"/>
+      <b-button variant="outline-light" @click="back">
+        <b-icon icon="arrow-return-left" variant="sm"/> {{ s('All lists') }}
       </b-button>
       <b-navbar-brand>
         <strong>{{name}}</strong>
-        &nbsp;
-        <span :style="styleOfStatus">&#9679;</span>
+        <!-- &nbsp;
+        <span :style="styleOfStatus">&#9679;</span> -->
       </b-navbar-brand>
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-      <b-button variant="outline-light" :to="{name: 'metadata', params: {id: id, db: client.ledger}}">
-        <b-icon icon="gear-fill" aria-hidden="true"></b-icon> Settings
-      </b-button>
-      &nbsp;
-      <b-button variant="outline-light" :to="{name: 'balance', params: {ledgerId: id}}">
-        <b-icon icon="calculator"/> Balance
-      </b-button>
-      &nbsp;
-      <b-button variant="secondary" :to="{name: 'item-edit', params: {ledgerId: id, id: 'new'}}">
-        <span class="text-dark"> <b-icon icon="plus-circle"/> Expense</span>
-      </b-button>
-      </b-navbar-nav>
-    </b-collapse>
     </b-navbar>
-    <b-alert variant="danger" :show="state != 'open'">
+    <b-alert variant="danger" :show="state != 'open'" class="mb-0">
       <div>
         <b-spinner small></b-spinner>
         Trying to reconnect to the server...
@@ -48,6 +31,19 @@
         <Item :item="item" :client="client"/>
       </b-list-group-item>
     </b-list-group>
+    <b-navbar type="light" variant="primary" class="fixed-bottom">
+      <b-button variant="outline-light" :to="{name: 'metadata', params: {id: id, db: client.ledger}}">
+        <b-icon icon="gear-fill" aria-hidden="true"></b-icon> Settings
+      </b-button>
+      &nbsp;
+      <b-button variant="outline-light" :to="{name: 'balance', params: {ledgerId: id}}">
+        <b-icon icon="calculator"/> Balance
+      </b-button>
+      &nbsp;
+      <b-button variant="secondary" :to="{name: 'item-edit', params: {ledgerId: id, id: 'new'}}">
+        <span class="text-dark"> <b-icon icon="plus-circle"/> Expense</span>
+      </b-button>
+    </b-navbar>
   </div>
 </template>
 
@@ -56,6 +52,7 @@ import Vue, {PropType} from "vue";
 import {type Ledger, type Transaction} from "../Ledger/Ledger";
 import {type Client, Clients} from "../Ledger/Client";
 import Item from "./Item.vue";
+import {s} from "../L10n";
 
 /**
  * Main view of a ledger.
@@ -114,6 +111,9 @@ export default Vue.extend({
     },
     back() {
       this.$router.push({name: "list"});
+    },
+    s(str: string): string {
+      return s(str);
     },
   },
 });
