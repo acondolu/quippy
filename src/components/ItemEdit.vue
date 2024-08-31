@@ -53,20 +53,7 @@
 import Vue from "vue";
 import { Clients } from "../Ledger/Client";
 import { UserID } from "../Ledger/Utils";
-import { Parser } from "expr-eval";
-
-function evalN(s: string): number | null {
-  try {
-    const parser = new Parser();
-    let expr = parser.parse(s);
-    let res = expr.evaluate({});
-    if (typeof res !== "number") return null;
-    if (isNaN(res)) return null;
-    return res;
-  } catch {
-    return null;
-  }
-}
+import { evalExpr } from "../math";
 
 export default Vue.extend({
   props: {
@@ -112,7 +99,7 @@ export default Vue.extend({
       return this.evalAmount == null || !this.paidBy || !this.description;
     },
     evalAmount(): number | null {
-      return evalN(this.amount);
+      return evalExpr(this.amount);
     }
   },
 });
