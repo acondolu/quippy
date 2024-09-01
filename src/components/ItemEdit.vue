@@ -9,7 +9,7 @@
         Edit Expense
       </b-navbar-brand>
     </b-navbar>
-    <div class="m-4 scroll">
+    <div class="p-4 scroll">
       <b-form-group
         label="Description:"
         label-cols-sm="2"

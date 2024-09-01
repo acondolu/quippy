@@ -9,7 +9,7 @@
         {{ name }}
       </b-navbar-brand>
     </b-navbar>
-    <div class="m-4 scroll">
+    <div class="p-4 scroll">
       <b-form-group label="Title:" label-cols-sm="2" label-align-sm="right">
         <b-form-input v-model="name"></b-form-input>
       </b-form-group>
