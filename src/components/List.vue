@@ -17,8 +17,8 @@
     <b-list-group>
       <b-list-group-item
         v-for="client in clientsSorted"
-        :to="{ name: 'ledger', params: {id: client.id}}"
         :key="client.id"
+        @click="() => onClick(client.id)"
       >
         <h6> {{ client.name }} </h6>
         <small> {{ client.description }} </small>
@@ -68,6 +68,9 @@ export default Vue.extend({
   methods: {
     refresh() {
       this.clients = Clients.all();
+    },
+    onClick(clientId: string) {
+      this.$router.push({ name: 'ledger', params: {id: clientId}});
     },
     async newLedger() {
       const ledger = Ledgers.add(undefined, undefined, "Untitled List", " ");

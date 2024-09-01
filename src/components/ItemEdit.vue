@@ -88,10 +88,10 @@ export default Vue.extend({
       const item = this.item;
       item.update(this.description, this.evalAmount, this.currency, this.paidBy, this.paidFor, new Array(this.paidFor.length).fill(1));
       this.client.setItem(item);
-      this.$router.push({ name: 'ledger', params: {id: this.ledgerId}});
+      this.$router.back();
     },
     back() {
-      this.$router.push({ name: 'ledger', params: {id: this.ledgerId}});
+      this.$router.back();
     },
   },
   computed: {

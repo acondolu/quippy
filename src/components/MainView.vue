@@ -26,7 +26,8 @@
     <b-list-group>
       <b-list-group-item
         v-for="item in items"
-        :to="{name: 'item-edit', params: {ledgerId: id, id: item.id}}"
+        :key="item.id"
+        @click="() => onClick(item.id)"
       >
         <Item :item="item" :client="client"/>
       </b-list-group-item>
@@ -109,8 +110,11 @@ export default Vue.extend({
       items.sort((a, b) => b.effective_ts - a.effective_ts);
       this.items = items;
     },
+    onClick(itemId: string) {
+      this.$router.push({name: 'item-edit', params: {ledgerId: this.id, id: itemId}});
+    },
     back() {
-      this.$router.push({name: "list"});
+      this.$router.back();
     },
     s(str: string): string {
       return s(str);

@@ -105,7 +105,7 @@ export default Vue.extend({
         this.participants,
         this.user || null
       );
-      this.$router.replace({ name: "ledger", params: { id: this.id } });
+      this.$router.back();
     },
     onDelete() {
       const resp = confirm(`Really delete "${this.name}"?`);
@@ -114,7 +114,7 @@ export default Vue.extend({
       this.$router.replace({ name: "list" });
     },
     back() {
-      this.$router.replace({ name: "ledger", params: { id: this.id } });
+      this.$router.back();
     },
     addParticipant(input: string[]) {
       for (let u of input) {

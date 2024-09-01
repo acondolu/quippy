@@ -98,7 +98,7 @@ export default Vue.extend({
   },
   methods: {
     back() {
-      this.$router.push({ name: 'ledger', params: {id: this.client.id}});
+      this.$router.back();
     },
   },
   computed: {
