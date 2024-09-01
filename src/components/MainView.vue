@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-navbar type="dark" variant="primary" toggleable="lg" class="fixed-top">
+  <div class="main-container">
+    <b-navbar type="dark" variant="primary">
       <b-button variant="outline-light" @click="back">
         <b-icon icon="arrow-return-left" variant="sm"/> {{ s('All lists') }}
       </b-button>
@@ -23,7 +23,7 @@
         until the app reconnects to the server.
       </div>
     </b-alert>
-    <b-list-group>
+    <b-list-group class="scroll">
       <b-list-group-item
         v-for="item in items"
         :key="item.id"
@@ -32,7 +32,7 @@
         <Item :item="item" :client="client"/>
       </b-list-group-item>
     </b-list-group>
-    <b-navbar type="light" variant="primary" class="fixed-bottom">
+    <b-navbar type="light" variant="primary">
       <b-button variant="outline-light" :to="{name: 'metadata', params: {id: id, db: client.ledger}}">
         <b-icon icon="gear-fill" aria-hidden="true"></b-icon> Settings
       </b-button>
@@ -114,7 +114,7 @@ export default Vue.extend({
       this.$router.push({name: 'item-edit', params: {ledgerId: this.id, id: itemId}});
     },
     back() {
-      this.$router.back();
+      this.$router.push({name: "list"});
     },
     s(str: string): string {
       return s(str);

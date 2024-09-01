@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <b-navbar toggleable="lg" variant="primary">
       <img src="icon.png" width="64">
       <div class="h1 mr-lg-2 ml-lg-2">
@@ -14,7 +14,7 @@
         </b-dropdown-item>
       </b-dropdown>
     </b-navbar>
-    <b-list-group>
+    <b-list-group class="scroll">
       <b-list-group-item
         v-for="client in clientsSorted"
         :key="client.id"
@@ -29,7 +29,7 @@
         </div>
       </b-list-group-item>
     </b-list-group>
-    <b-navbar type="light" variant="primary" class="fixed-bottom">
+    <b-navbar type="light" variant="primary">
       <div class="text-white text-center" style="font-size: 0.8em;">
         <a href="https://github.com/acondolu/quippy" target="_blank" class="text-white">
           {{ s('Licensed under GNU GPLv3') }}

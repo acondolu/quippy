@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <b-navbar toggleable="lg" type="dark" variant="primary">
       <b-button variant="primary" @click="back">
         <b-icon icon="arrow-return-left" />
@@ -8,7 +8,7 @@
         {{ name }}
       </b-navbar-brand>
     </b-navbar>
-    <div class="m-4">
+    <div class="m-4 scroll">
       <b-form-group label="Title:" label-cols-sm="2" label-align-sm="right">
         <b-form-input v-model="name"></b-form-input>
       </b-form-group>
@@ -105,7 +105,7 @@ export default Vue.extend({
         this.participants,
         this.user || null
       );
-      this.$router.back();
+      this.$router.replace({ name: "ledger", params: { id: this.id } });
     },
     onDelete() {
       const resp = confirm(`Really delete "${this.name}"?`);
@@ -114,7 +114,7 @@ export default Vue.extend({
       this.$router.replace({ name: "list" });
     },
     back() {
-      this.$router.back();
+      this.$router.replace({ name: "ledger", params: { id: this.id } });
     },
     addParticipant(input: string[]) {
       for (let u of input) {

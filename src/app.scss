@@ -101,15 +101,22 @@ $my-dark-muted: rgb(108, 117, 125);
   color: #202124;
 }
 
-.fixed-top {
-  position: fixed;
-  top: env(safe-area-inset-top, 0px);
-  width: 100%;
+.navbar-expand {
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
-.fixed-bottom {
+.main-container {
   position: fixed;
+  top: env(safe-area-inset-top, 0px);
   bottom: env(safe-area-inset-bottom, 0px);
   width: 100%;
-  justify-content: space-around !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  overflow-y: scroll;
+  overflow-x: visible;
+  flex-grow: 1;
 }

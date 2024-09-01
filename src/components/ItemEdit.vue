@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <b-navbar type="dark" variant="primary">
       <b-navbar-brand>
         <b-button variant="primary" @click="back">
@@ -8,7 +8,7 @@
         Edit Expense
       </b-navbar-brand>
     </b-navbar>
-    <div class="m-4">
+    <div class="m-4 scroll">
       <b-form-group
         label="Description:"
         label-cols-sm="2"
@@ -88,10 +88,10 @@ export default Vue.extend({
       const item = this.item;
       item.update(this.description, this.evalAmount, this.currency, this.paidBy, this.paidFor, new Array(this.paidFor.length).fill(1));
       this.client.setItem(item);
-      this.$router.back();
+      this.$router.push({ name: 'ledger', params: {id: this.ledgerId}});
     },
     back() {
-      this.$router.back();
+      this.$router.push({ name: 'ledger', params: {id: this.ledgerId}});
     },
   },
   computed: {

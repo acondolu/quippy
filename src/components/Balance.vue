@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <b-navbar toggleable="lg" type="dark" variant="primary">
       <b-navbar-brand>
         <b-button variant="primary" @click="back">
@@ -8,6 +8,7 @@
         {{name}}
       </b-navbar-brand>
     </b-navbar>
+    <div class="scroll">
     <b-card class="m-2" no-body>
       <template #header>
         <h4 class="mb-0">Balances</h4>
@@ -25,6 +26,7 @@
         </b-list-group-item>
       </b-list-group>
     </b-card>
+    </div>
   </div>
 </template>
 
@@ -98,7 +100,7 @@ export default Vue.extend({
   },
   methods: {
     back() {
-      this.$router.back();
+      this.$router.push({ name: 'ledger', params: {id: this.client.id}});
     },
   },
   computed: {
