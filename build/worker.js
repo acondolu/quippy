@@ -1,4 +1,4 @@
-const RUNTIME = 'runtime-v3';
+const RUNTIME = 'runtime-v4';
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(

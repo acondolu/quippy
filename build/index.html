@@ -16,6 +16,14 @@
             "ServiceWorker registration successful with scope: ",
             reg.scope
           );
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+              type: 'reload',
+            });
+            console.log("reload: launched");
+          } else {
+            console.log("reload: failed");
+          }
         })
         .catch(function (err) {
           console.log("ServiceWorker registration failed: ", err);

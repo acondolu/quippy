@@ -46,12 +46,3 @@ function main() {
 
 import { Clients } from "./Ledger/Client";
 Clients.init().then(main);
-
-if (navigator.serviceWorker.controller) {
-  navigator.serviceWorker.controller.postMessage({
-    type: 'reload',
-  });
-  console.log("reload: launched");
-} else {
-  console.log("reload: failed");
-}
