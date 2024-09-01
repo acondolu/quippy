@@ -1,8 +1,9 @@
 <template>
   <div class="main-container">
-    <b-navbar toggleable="lg" type="dark" variant="primary">
-      <b-button variant="primary" @click="back">
+    <b-navbar type="dark" variant="primary">
+      <b-button variant="outline-light" @click="back">
         <b-icon icon="arrow-return-left" />
+        Cancel
       </b-button>
       <b-navbar-brand>
         {{ name }}

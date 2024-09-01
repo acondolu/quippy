@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="primary">
-      <b-button variant="primary" @click="back">
+    <b-navbar type="dark" variant="primary">
+      <b-button variant="outline-light" @click="back">
         <b-icon icon="arrow-return-left" />
+        Cancel
       </b-button>
       <b-navbar-brand> Join Existing Ledger </b-navbar-brand>
     </b-navbar>
@@ -15,15 +16,14 @@
       </div>
     </b-alert>
     <div class="m-4">
-      <b-form-group label="Token:" label-cols-sm="2" label-align-sm="right">
+      <b-input-group prepend="Token" class="mt-3">
         <b-form-input v-model="token" :state="state"></b-form-input>
-      </b-form-group>
-
-      <b-form-group label-cols-sm="2" label-align-sm="right" class="mb-0">
-        <b-button @click="onClick" variant="primary" :disabled="!state"
-          >Join</b-button
-        >
-      </b-form-group>
+        <b-input-group-append>
+          <b-button @click="onClick" variant="primary" :disabled="!state">
+            Join
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
     </div>
   </div>
 </template>

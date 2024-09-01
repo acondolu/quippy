@@ -2,8 +2,9 @@
   <div class="main-container">
     <b-navbar type="dark" variant="primary">
       <b-navbar-brand>
-        <b-button variant="primary" @click="back">
+        <b-button variant="outline-light" @click="back">
           <b-icon icon="arrow-return-left"/>
+          Back
         </b-button>
         Edit Expense
       </b-navbar-brand>

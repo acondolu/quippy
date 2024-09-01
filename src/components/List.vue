@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <b-navbar toggleable="lg" variant="primary">
+    <b-navbar variant="primary">
       <img src="icon.png" width="64">
       <div class="h1 mr-lg-2 ml-lg-2">
         Quippy

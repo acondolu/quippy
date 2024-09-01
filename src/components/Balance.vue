@@ -1,31 +1,33 @@
 <template>
   <div class="main-container">
-    <b-navbar toggleable="lg" type="dark" variant="primary">
+    <b-navbar type="dark" variant="primary">
       <b-navbar-brand>
-        <b-button variant="primary" @click="back">
-          <b-icon icon="arrow-return-left"/>
+        <b-button variant="outline-light" @click="back">
+          <b-icon icon="arrow-return-left" />
+          Back
         </b-button>
-        {{name}}
+        {{ name }}
       </b-navbar-brand>
     </b-navbar>
     <div class="scroll">
-    <b-card class="m-2" no-body>
-      <template #header>
-        <h4 class="mb-0">Balances</h4>
-      </template>
-      <b-table :items="items" flush/>
-    </b-card>
+      <b-card class="m-2" no-body>
+        <template #header>
+          <h4 class="mb-0">Balances</h4>
+        </template>
+        <b-table :items="items" flush />
+      </b-card>
 
-    <b-card class="m-2" no-body>
-      <template #header>
-        <h4 class="mb-0">Reimbursements</h4>
-      </template>
-      <b-list-group flush>
-        <b-list-group-item v-for="r in reimbursements">
-          <strong>{{r[0]}}</strong> will reimburse <strong>{{r[2]}}€</strong> to <strong>{{r[1]}}</strong>
-        </b-list-group-item>
-      </b-list-group>
-    </b-card>
+      <b-card class="m-2" no-body>
+        <template #header>
+          <h4 class="mb-0">Reimbursements</h4>
+        </template>
+        <b-list-group flush>
+          <b-list-group-item v-for="r in reimbursements">
+            <strong>{{ r[0] }}</strong> will reimburse
+            <strong>{{ r[2] }}€</strong> to <strong>{{ r[1] }}</strong>
+          </b-list-group-item>
+        </b-list-group>
+      </b-card>
     </div>
   </div>
 </template>
@@ -36,13 +38,24 @@ import { Clients } from "../Ledger/Client";
 import { Transaction } from "../Ledger/Ledger";
 import { WithTs, round } from "../Ledger/Utils";
 
-function reimbursements(pays: Map<string, number>): [string, string, number][] | undefined {
+function reimbursements(
+  pays: Map<string, number>
+): [string, string, number][] | undefined {
   const res: [string, string, number][] = [];
-  while(true) {
-    let M = 0, m = 0, Mu = null, mu = null;
+  while (true) {
+    let M = 0,
+      m = 0,
+      Mu = null,
+      mu = null;
     for (let [user, paid] of pays.entries()) {
-      if (paid > M) { M = paid; Mu = user; }
-      if (paid < m) { m = paid; mu = user; }
+      if (paid > M) {
+        M = paid;
+        Mu = user;
+      }
+      if (paid < m) {
+        m = paid;
+        mu = user;
+      }
     }
     if (M < 0 || m > 0) {
       console.log("WTF", M, Mu, m, mu);
@@ -50,14 +63,17 @@ function reimbursements(pays: Map<string, number>): [string, string, number][] |
     }
     if (!Mu || !mu) break; // all zeroes
     if (Math.abs(M) < 0.01 || Math.abs(m) <= 0.01) break;
-    pays.set(Mu, Math.max(M+m, 0));
-    pays.set(mu, Math.min(M+m, 0));
+    pays.set(Mu, Math.max(M + m, 0));
+    pays.set(mu, Math.min(M + m, 0));
     res.push([mu, Mu, round(Math.min(M, -m))]);
   }
   return res;
 }
 
-function sums(items: Transaction[], participants: Map<string, WithTs<string>>): Map<string, number> {
+function sums(
+  items: Transaction[],
+  participants: Map<string, WithTs<string>>
+): Map<string, number> {
   const ret: Map<string, number> = new Map();
   const add = (uid: string, n: number) => {
     console.log("Add", uid, n);
@@ -100,14 +116,17 @@ export default Vue.extend({
   },
   methods: {
     back() {
-      this.$router.push({ name: 'ledger', params: {id: this.client.id}});
+      this.$router.push({ name: "ledger", params: { id: this.client.id } });
     },
   },
   computed: {
     items(): any[] {
       console.log("computed", this.sums);
-      return Array.from(this.sums.entries()).map(([name, amount]) => ({name: name, paid: round(amount) + "€"}));
-    }
+      return Array.from(this.sums.entries()).map(([name, amount]) => ({
+        name: name,
+        paid: round(amount) + "€",
+      }));
+    },
   },
 });
 </script>
