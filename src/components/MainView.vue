@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="dark" variant="primary" toggleable="lg">
+    <b-navbar type="dark" variant="primary" toggleable="lg" class="fixed-top">
       <b-button variant="outline-light" @click="back">
         <b-icon icon="arrow-return-left" variant="sm"/> {{ s('All lists') }}
       </b-button>
