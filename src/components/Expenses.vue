@@ -29,7 +29,7 @@
         :key="item.id"
         @click="() => onClick(item.id)"
       >
-        <Item :item="item" :client="client"/>
+        <Expense :item="item" :client="client"/>
       </b-list-group-item>
     </b-list-group>
     <b-navbar type="light" variant="primary">
@@ -52,14 +52,14 @@
 import Vue, {PropType} from "vue";
 import {type Ledger, type Transaction} from "../Ledger/Ledger";
 import {type Client, Clients} from "../Ledger/Client";
-import Item from "./Item.vue";
+import Expense from "./Expense.vue";
 import {s} from "../L10n";
 
 /**
  * Main view of a ledger.
  */
 export default Vue.extend({
-  components: {Item},
+  components: {Expense},
   props: {
     id: String as PropType<string>,
   },

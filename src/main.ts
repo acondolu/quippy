@@ -10,20 +10,20 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 import App from "./components/App.vue";
-import List from "./components/List.vue";
-import MainView from "./components/MainView.vue";
+import Lists from "./components/Lists.vue";
+import Expenses from "./components/Expenses.vue";
 import Join from "./components/Join.vue";
-import Metadata from "./components/Metadata.vue";
-import ItemEdit from "./components/ItemEdit.vue";
+import ListEdit from "./components/ListEdit.vue";
+import ExpenseEdit from "./components/ExpenseEdit.vue";
 import Balance from "./components/Balance.vue";
 
 const router = new VueRouter({
   routes: [
-    { path: '/', name: 'list', component: List },
-    { path: '/ledger/overview/:id', name: 'ledger', component: MainView, props: true},
+    { path: '/', name: 'list', component: Lists },
+    { path: '/ledger/overview/:id', name: 'ledger', component: Expenses, props: true},
     { path: '/join', name: 'join', component: Join},
-    { path: '/ledger/metadata/:id', name: 'metadata', component: Metadata, props: true},
-    { path: '/ledger/edit/:ledgerId/:id', name: 'item-edit', component: ItemEdit, props: true},
+    { path: '/ledger/metadata/:id', name: 'metadata', component: ListEdit, props: true},
+    { path: '/ledger/edit/:ledgerId/:id', name: 'item-edit', component: ExpenseEdit, props: true},
     { path: '/ledger/balance/:ledgerId', name: 'balance', component: Balance, props: true},
   ],
   mode: "abstract",
