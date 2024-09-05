@@ -6,8 +6,6 @@
       </b-button>
       <b-navbar-brand>
         <strong>{{name}}</strong>
-        <!-- &nbsp;
-        <span :style="styleOfStatus">&#9679;</span> -->
       </b-navbar-brand>
     </b-navbar>
     <b-alert variant="danger" :show="state != 'open'" class="mb-0">

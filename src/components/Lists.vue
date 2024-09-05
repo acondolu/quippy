@@ -73,7 +73,7 @@ export default Vue.extend({
       this.$router.push({ name: 'ledger', params: {id: clientId}});
     },
     async newLedger() {
-      const ledger = Ledgers.add(undefined, undefined, "Untitled List", " ");
+      const ledger = Ledgers.add(undefined, undefined, s("Untitled List"), " ");
       await Clients.register(ledger);
       this.$router.push({name: "metadata", params: {id: ledger.id}});
     },

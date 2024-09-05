@@ -1,25 +1,29 @@
 <template>
   <div class="main-container">
     <b-navbar type="dark" variant="primary">
+      <b-button variant="outline-light" @click="back">
+        <b-icon icon="arrow-return-left" />
+        {{ s('Back') }}
+      </b-button>
       <b-navbar-brand>
-        <b-button variant="outline-light" @click="back">
-          <b-icon icon="arrow-return-left" />
-          Back
-        </b-button>
-        {{ name }}
+        <strong>{{ name }}</strong>
       </b-navbar-brand>
     </b-navbar>
     <div class="scroll">
       <b-card class="m-2" no-body>
         <template #header>
-          <h4 class="mb-0">Balances</h4>
+          <h4 class="mb-0">
+            {{ s('Balances') }}
+          </h4>
         </template>
         <b-table :items="items" flush />
       </b-card>
 
       <b-card class="m-2" no-body>
         <template #header>
-          <h4 class="mb-0">Reimbursements</h4>
+          <h4 class="mb-0">
+            {{ s('Reimbursements') }}
+          </h4>
         </template>
         <b-list-group flush>
           <b-list-group-item v-for="r in reimbursements">
@@ -37,6 +41,7 @@ import Vue from "vue";
 import { Clients } from "../Ledger/Client";
 import { Transaction } from "../Ledger/Ledger";
 import { WithTs, round } from "../Ledger/Utils";
+import {s} from "../L10n";
 
 function reimbursements(
   pays: Map<string, number>
@@ -118,6 +123,9 @@ export default Vue.extend({
     back() {
       this.$router.push({ name: "ledger", params: { id: this.client.id } });
     },
+    s(str: string): string {
+      return s(str);
+    }
   },
   computed: {
     items(): any[] {

@@ -3,10 +3,10 @@
     <b-navbar type="dark" variant="primary">
       <b-button variant="outline-light" @click="back">
         <b-icon icon="arrow-return-left" />
-        Cancel
+        {{ s('Cancel') }}
       </b-button>
       <b-navbar-brand>
-        {{ name }}
+        <strong>{{ name }}</strong>
       </b-navbar-brand>
     </b-navbar>
     <div class="p-4 scroll">
@@ -48,7 +48,7 @@
         label="Join Token:"
         label-cols-sm="2"
         label-align-sm="right"
-        description="This is the token to share with others when inviting them to join this list"
+        :description="s('TOKEN_DESCR')"
       >
         <b-input-group>
           <b-form-input :value="link" disabled></b-form-input>
@@ -81,6 +81,7 @@ import Vue from "vue";
 import { Clients } from "../Ledger/Client";
 import { UserID } from "../Ledger/Utils";
 import { makeJoinLink } from "./Join.vue";
+import {s} from "../L10n";
 
 export default Vue.extend({
   props: {
@@ -126,6 +127,9 @@ export default Vue.extend({
     copyLink() {
       navigator.clipboard.writeText(this.link);
     },
+    s(str: string): string {
+      return s(str);
+    }
   },
   computed: {
     participantsList(): string[] {
