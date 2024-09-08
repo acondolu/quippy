@@ -1,6 +1,6 @@
 {
-    "theme_color": "#61cd77",
-    "background_color": "#fff",
+    "theme_color": "#11e086",
+    "background_color": "#11e086",
     "display": "standalone",
     "scope": "/quippy/",
     "start_url": "https://acondolu.me/quippy/",
@@ -11,7 +11,7 @@
         {
             "src": "./icon.png",
             "type": "image/png",
-            "sizes": "256x256"
+            "sizes": "512x512"
         }
     ],
     "handle_links": "preferred",

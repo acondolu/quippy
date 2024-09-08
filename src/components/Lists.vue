@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <b-navbar variant="primary">
-      <img src="icon.png" width="64">
+      <img src="icon.png" width="64" style="border-radius: 15px;">
       <div class="h1 mr-lg-2 ml-lg-2">
         Quippy
       </div>
