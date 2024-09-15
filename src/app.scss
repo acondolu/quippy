@@ -1,6 +1,11 @@
+$yellow: #fdda12;
+$green: #11e086;
+$my-black: #202124;
+$my-white: #bdc1c6;
+
 $theme-colors: (
-  "primary": #11e086,
-  "secondary": #fce585
+  "primary": $green,
+  "secondary": $yellow
 );
 
 // Then import Bootstrap and BootstrapVue SCSS files (order is important)
@@ -10,7 +15,7 @@ $theme-colors: (
 $my-dark-muted: rgb(108, 117, 125);
 
 html {
-  background-color: #11e086;
+  background-color: $green;
 }
 
 .alert {
@@ -38,8 +43,8 @@ html {
 }
 
 .btn-outline-light {
-  border-color: #202124 !important;
-  color: #202124;
+  border-color: $my-black !important;
+  color: $my-black;
 }
 
 .navbar-dark .navbar-toggler {
@@ -49,12 +54,12 @@ html {
 
 .navbar-dark .navbar-brand,
 .navbar {
-  color: #202124 !important;
+  color: $my-black !important;
 }
 
 .card-header {
-  background-color: #11e086;
-  color: #202124;
+  background-color: $green;
+  color: $my-black;
 }
 
 .navbar-expand {
@@ -82,8 +87,8 @@ html {
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #202124;
-    color: #bdc1c6;
+    background-color: $my-black;
+    color: $my-white;
   }
 
   hr {
@@ -91,47 +96,47 @@ html {
   }
 
   .text-light {
-    color: #202124 !important;
+    color: $my-black !important;
   }
 
   .list-group-item,
   .list-group-item.disabled {
-    background-color: #202124;
+    background-color: $my-black;
   }
 
   .b-form-tags.focus,
   .b-form-tags-input {
-    background-color: #202124;
-    color: #bdc1c6;
+    background-color: $my-black;
+    color: $my-white;
   }
 
   .list-group-item-action {
-    color: #bdc1c6;
+    color: $my-white;
   }
 
   .dropdown-menu {
-    background-color: black;
+    background-color: $my-black;
   }
 
   .dropdown-item {
-    color: #bdc1c6;
+    color: $my-white;
   }
 
   .btn-outline-light:hover {
-    background-color: #202124;
-    color: #bdc1c6;
+    background-color: $my-black;
+    color: $my-white;
   }
 
   .form-control,
   .custom-select,
   .table,
   .card {
-    background-color: #202124;
-    color: #bdc1c6;
+    background-color: $my-black;
+    color: $my-white;
   }
 
   .form-control:disabled {
-    background-color: #202124;
+    background-color: $my-black;
     color: $my-dark-muted;
     border-color: $my-dark-muted;
   }
@@ -141,6 +146,6 @@ html {
   }
 
   .scroll {
-    background-color: #202124;
+    background-color: $my-black;
   }
 }
