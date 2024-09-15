@@ -1,4 +1,4 @@
-import { UserID, UUID, getItem, b64decode, b64encode, setItem, type WithTs, withTs, Origin } from "./Utils";
+import { UserID, UUID, getItem, b64decode, b64encode, setItem, type WithTs, withTs, Origin, ts2iso } from "./Utils";
 import { pArray, pString, } from "./JSON";
 import {s} from "../L10n";
 
@@ -276,7 +276,7 @@ export class Ledger {
       weights: withTs(new Array(paidFor.length).fill(1), 0),
       last_modified: 0,
       created_ts: now,
-      effective_ts: now,
+      effective_ts: withTs(ts2iso(now), now),
     });
   }
 
@@ -295,7 +295,7 @@ type TransactionJSON = {
   weights: WithTs<number[]>;
   last_modified: number;
   created_ts: number;
-  effective_ts: number;
+  effective_ts: number /*legacy*/ | WithTs<string>;
 };
 
 export class Transaction {
@@ -308,7 +308,7 @@ export class Transaction {
   weights: WithTs<number[]>;
   private modified_ts: number;
   created_ts: number;
-  effective_ts: number;
+  effective_ts: WithTs<string>;
 
   constructor(obj: TransactionJSON) {
     this.id = obj.id;
@@ -323,7 +323,7 @@ export class Transaction {
     this.weights = obj.weights;
     this.modified_ts = obj.last_modified;
     this.created_ts = obj.created_ts || 0;
-    this.effective_ts = obj.effective_ts || 0;
+    this.effective_ts = typeof obj.effective_ts === "number" ? withTs(ts2iso(obj.effective_ts), obj.effective_ts): obj.effective_ts;
   }
   toJSON(): TransactionJSON {
     return {
@@ -344,7 +344,7 @@ export class Transaction {
     return this.modified_ts || 0;
   }
 
-  update(description: string, amount: number, currency: string, paidBy: UserID, paidFor: UserID[], weights: number[]) {
+  update(description: string, amount: number, currency: string, effectiveTs: string, paidBy: UserID, paidFor: UserID[], weights: number[]) {
     const timestamp = Date.now();
     let changed = false;
     if (amount != this.amount.content) {
@@ -358,6 +358,10 @@ export class Transaction {
     if (currency != this.currency.content) {
       changed = true;
       this.currency = {content: currency, timestamp};
+    }
+    if (effectiveTs != this.effective_ts.content) {
+      changed = true;
+      this.effective_ts = {content: effectiveTs, timestamp};
     }
     if (paidBy != this.paidBy.content) {
       changed = true;
@@ -383,6 +387,7 @@ export class Transaction {
     this.paidBy = takeNewest(other.paidBy, this.paidBy);
     this.paidFor = takeNewest(other.paidFor, this.paidFor);
     this.weights = takeNewest(other.weights, this.weights);
+    this.effective_ts = takeNewest(other.effective_ts, this.effective_ts);
     this.modified_ts = Math.max(other.modified_ts, this.modified_ts);
   }
 };

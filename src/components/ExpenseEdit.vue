@@ -1,38 +1,45 @@
 <template>
   <div class="main-container">
     <b-navbar type="dark" variant="primary">
+      <b-button variant="outline-light" @click="back">
+        <b-icon icon="arrow-return-left"/>
+        Back
+      </b-button>
       <b-navbar-brand>
-        <b-button variant="outline-light" @click="back">
-          <b-icon icon="arrow-return-left"/>
-          Back
-        </b-button>
         Edit Expense
       </b-navbar-brand>
     </b-navbar>
     <div class="p-4 scroll">
       <b-form-group
-        label="Description:"
-        label-cols-sm="2"
-        label-align-sm="right"
-      >
-        <b-form-input v-model="description" placeholder="New Item" :state="description != ''"></b-form-input>
-      </b-form-group>
-      <b-form-group
-        label="Amount:"
+        label="Amount"
         label-cols-sm="2"
         label-align-sm="right"
       >
         <b-form-input v-model="amount" :state="evalAmount != null"></b-form-input>
       </b-form-group>
       <b-form-group
-        label="Paid by:"
+        label="Description"
+        label-cols-sm="2"
+        label-align-sm="right"
+      >
+        <b-form-input v-model="description" placeholder="New Item" :state="description != ''"></b-form-input>
+      </b-form-group>
+      <b-form-group
+        label="Date"
+        label-cols-sm="2"
+        label-align-sm="right"
+      >
+        <input type="date" v-model="date">
+      </b-form-group>
+      <b-form-group
+        label="Paid by"
         label-cols-sm="2"
         label-align-sm="right"
       >
         <b-form-select v-model="paidBy" :options="participantList"/>
       </b-form-group>
       <b-form-group
-        label="Paid for:"
+        label="Paid for"
         label-cols-sm="2"
         label-align-sm="right"
       >
@@ -78,6 +85,7 @@ export default Vue.extend({
       description: item.description.content as string,
       amount: item.amount.content.toString() as string,
       currency: item.currency.content as string,
+      date: item.effective_ts.content,
       paidBy: item.paidBy.content as UserID,
       paidFor: item.paidFor.content as UserID[],
       participantList: client.participantList,
@@ -87,7 +95,7 @@ export default Vue.extend({
     onClick() {
       if (this.evalAmount == null) return;
       const item = this.item;
-      item.update(this.description, this.evalAmount, this.currency, this.paidBy, this.paidFor, new Array(this.paidFor.length).fill(1));
+      item.update(this.description, this.evalAmount, this.currency, this.date, this.paidBy, this.paidFor, new Array(this.paidFor.length).fill(1));
       this.client.setItem(item);
       this.$router.push({ name: 'ledger', params: {id: this.ledgerId}});
     },

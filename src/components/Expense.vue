@@ -37,8 +37,7 @@ export default Vue.extend({
       return this.client.participants.get(p)?.content || "Unknown";
     },
     paidOn(): string {
-      const ts = this.item.effective_ts;
-      if (!ts) return "<???>";
+      const ts = this.item.effective_ts.content;
       return new Date(ts).toDateString();
     }
   },

@@ -73,6 +73,10 @@ export function round(n: number): string {
   return (+n).toFixed(2);
 }
 
+export function ts2iso(n: number): string {
+  return new Date(n).toISOString().substring(0, 10);
+}
+
 /**
  * Origin of a change (either local or remote).
  * Used to track where a change originates from,

@@ -64,7 +64,7 @@ export default Vue.extend({
   data() {
     const client: Client = Clients.get(this.id);
     const items = client.items.slice();
-    items.sort((a, b) => b.effective_ts - a.effective_ts);
+    items.sort((a, b) => b.effective_ts.content.localeCompare(a.effective_ts.content));
     return {
       client: client as Client,
       items: items as Transaction[],
@@ -105,7 +105,7 @@ export default Vue.extend({
       this.name = data.name.content;
       this.description = data.description.content;
       const items = this.client!.items.slice();
-      items.sort((a, b) => b.effective_ts - a.effective_ts);
+      items.sort((a, b) => b.effective_ts.content.localeCompare(a.effective_ts.content));
       this.items = items;
     },
     onClick(itemId: string) {
