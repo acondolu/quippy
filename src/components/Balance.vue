@@ -45,8 +45,8 @@ import {s} from "../L10n";
 
 function reimbursements(
   pays: Map<string, number>
-): [string, string, number][] | undefined {
-  const res: [string, string, number][] = [];
+): [string, string, string][] | undefined {
+  const res: [string, string, string][] = [];
   while (true) {
     let M = 0,
       m = 0,
@@ -63,7 +63,7 @@ function reimbursements(
       }
     }
     if (M < 0 || m > 0) {
-      console.log("WTF", M, Mu, m, mu);
+      console.log("Balance.reimbursements: unexpected", M, Mu, m, mu);
       return;
     }
     if (!Mu || !mu) break; // all zeroes
@@ -81,7 +81,6 @@ function sums(
 ): Map<string, number> {
   const ret: Map<string, number> = new Map();
   const add = (uid: string, n: number) => {
-    console.log("Add", uid, n);
     return ret.set(uid, (ret.get(uid) || 0) + n);
   };
   for (let item of items) {
@@ -98,10 +97,8 @@ function sums(
     if (!p || r == null) {
       continue;
     }
-    console.log("ret2", p.content, r);
     ret2.set(p.content, r);
   }
-  console.log(ret2);
   return ret2;
 }
 
@@ -129,7 +126,6 @@ export default Vue.extend({
   },
   computed: {
     items(): any[] {
-      console.log("computed", this.sums);
       return Array.from(this.sums.entries()).map(([name, amount]) => ({
         name: name,
         paid: round(amount) + "€",

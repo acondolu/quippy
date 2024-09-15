@@ -69,8 +69,8 @@ export function roomIdOfLegerId(data: UUID): Uint8Array {
   return new TextEncoder().encode(data);
 }
 
-export function round(n: number): number {
-  return Math.round((+n)*100.0) / 100.0;
+export function round(n: number): string {
+  return (+n).toFixed(2);
 }
 
 /**

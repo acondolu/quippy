@@ -27,7 +27,7 @@ export default Vue.extend({
       if (!x) return "<???>";
       return JSON.stringify(x.toJSON());
     },
-    round(x: number): number {
+    round(x: number): string {
       return round(x);
     }
   },

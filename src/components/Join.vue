@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <b-navbar type="dark" variant="primary">
       <b-button variant="outline-light" @click="back">
         <b-icon icon="arrow-return-left" />
@@ -7,23 +7,25 @@
       </b-button>
       <b-navbar-brand> Join Existing Ledger </b-navbar-brand>
     </b-navbar>
-    <b-alert variant="info" show>
-      <div>
-        To join an existing expense list, ask somebody to share with you the 
-        <i>join token string</i> (it is a long string of letters and numbers,
-        and can be found in the <i>Settings</i> of a list).
-        Paste the token below.
+    <div class="scroll">
+      <b-alert variant="info" show>
+        <div>
+          To join an existing expense list, ask somebody to share with you the
+          <i>join token string</i> (it is a long string of letters and numbers,
+          and can be found in the <i>Settings</i> of a list). Paste the token
+          below.
+        </div>
+      </b-alert>
+      <div class="m-4">
+        <b-input-group prepend="Token" class="mt-3">
+          <b-form-input v-model="token" :state="state"></b-form-input>
+          <b-input-group-append>
+            <b-button @click="onClick" variant="primary" :disabled="!state">
+              Join
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
       </div>
-    </b-alert>
-    <div class="m-4">
-      <b-input-group prepend="Token" class="mt-3">
-        <b-form-input v-model="token" :state="state"></b-form-input>
-        <b-input-group-append>
-          <b-button @click="onClick" variant="primary" :disabled="!state">
-            Join
-          </b-button>
-        </b-input-group-append>
-      </b-input-group>
     </div>
   </div>
 </template>
@@ -87,7 +89,7 @@ export default Vue.extend({
     state(): boolean | null {
       if (!this.token) return null;
       return !!this.parsed;
-    }
+    },
   },
 });
 </script>
