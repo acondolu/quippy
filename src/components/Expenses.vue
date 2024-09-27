@@ -57,10 +57,15 @@ function lexy(x: number, y: number): number {
   return x == 0 ? y : x;
 }
 
-function cmp_transactions(a: Transaction, b: Transaction) {
+/**
+ * Compare two transactions, returning {-1, 0, +1}.
+ * Note: comparison is reversed compared to the natural one,
+ * because newer expenses should be displayed on top.
+ */
+function cmp_transactions(a: Transaction, b: Transaction): number {
   return lexy(
     b.effective_ts.content.localeCompare(a.effective_ts.content),
-    Math.sign(a.created_ts - b.created_ts),
+    Math.sign(b.created_ts - a.created_ts),
   );
 }
 
