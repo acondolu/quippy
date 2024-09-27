@@ -53,6 +53,17 @@ import {type Client, Clients} from "../Ledger/Client";
 import Expense from "./Expense.vue";
 import {s} from "../L10n";
 
+function lexy(x: number, y: number): number {
+  return x == 0 ? y : x;
+}
+
+function cmp_transactions(a: Transaction, b: Transaction) {
+  return lexy(
+    b.effective_ts.content.localeCompare(a.effective_ts.content),
+    Math.sign(a.created_ts - b.created_ts),
+  );
+}
+
 /**
  * Main view of a ledger.
  */
@@ -64,7 +75,7 @@ export default Vue.extend({
   data() {
     const client: Client = Clients.get(this.id);
     const items = client.items.slice();
-    items.sort((a, b) => b.effective_ts.content.localeCompare(a.effective_ts.content));
+    items.sort(cmp_transactions);
     return {
       client: client as Client,
       items: items as Transaction[],
@@ -105,7 +116,7 @@ export default Vue.extend({
       this.name = data.name.content;
       this.description = data.description.content;
       const items = this.client!.items.slice();
-      items.sort((a, b) => b.effective_ts.content.localeCompare(a.effective_ts.content));
+      items.sort(cmp_transactions);
       this.items = items;
     },
     onClick(itemId: string) {
