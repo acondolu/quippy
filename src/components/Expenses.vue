@@ -31,7 +31,7 @@
       </b-list-group-item>
     </b-list-group>
     <b-navbar type="light" variant="primary">
-      <b-button variant="outline-light" :to="{name: 'metadata', params: {id: id, db: client.ledger}}">
+      <b-button variant="outline-light" :to="{name: 'metadata', params: {id: id}}">
         <b-icon icon="gear-fill" aria-hidden="true"></b-icon> Settings
       </b-button>
       &nbsp;
