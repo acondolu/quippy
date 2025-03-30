@@ -1,0 +1,4 @@
+/node_modules/
+/build/ledger-app.css
+/build/ledger-app.umd.min.js
+/build/ledger-app.umd.min.js.map

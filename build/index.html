@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Quippy</title>
+  <link rel="stylesheet" href="ledger-app.css">
+  <meta name="theme-color" content="#11e086">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("./worker.js")
+        .then(function (reg) {
+          console.log(
+            "ServiceWorker registration successful with scope: ",
+            reg.scope
+          );
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+              type: 'reload',
+            });
+            console.log("reload: launched");
+          } else {
+            console.log("reload: failed");
+          }
+        })
+        .catch(function (err) {
+          console.log("ServiceWorker registration failed: ", err);
+        });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="ledger-app.umd.min.js"></script>
+</body>
+
+
+</html>

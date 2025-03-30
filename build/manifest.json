@@ -1,0 +1,23 @@
+{
+    "theme_color": "#11e086",
+    "background_color": "#11e086",
+    "display": "standalone",
+    "scope": "<!--#echo var="ssi_scope"-->",
+    "start_url": "<!--#echo var="ssi_start_url"-->",
+    "name": "Quippy Expense Splitter",
+    "short_name": "Quippy",
+    "description": "",
+    "icons": [
+        {
+            "src": "./icon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "handle_links": "preferred",
+    "url_handlers": [
+        {
+          "origin": "<!--#echo var="ssi_origin"-->"
+        }
+    ]
+}

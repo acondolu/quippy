@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "lib": ["es2016", "dom", "es5", "es6"],
+    "strictNullChecks": true,
+    "strict": true,
+    "types": ["node"],
+    "target": "es2016"
+  },
+  "include": ["./src"]
+}

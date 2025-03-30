@@ -1,0 +1,37 @@
+{
+  "name": "quippy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.ts",
+  "author": "",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "npx vue-cli-service build --dest build --no-clean --inline-vue --target lib --name ledger-app --formats umd-min src/main.ts"
+  },
+  "devDependencies": {
+    "@giphy/js-fetch-api": "^5.2.0",
+    "@types/vue": "^2.0.0",
+    "@types/web-bluetooth": "0.0.17",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-plugin-typescript": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
+    "bootstrap": "^4.6.1",
+    "bootstrap-vue": "^2.23.1",
+    "cropperjs": "^1.5.13",
+    "expr-eval": "^2.0.2",
+    "gifsicle-wasm-browser": "^1.5.16",
+    "git-describe": "^4.1.1",
+    "js-base64": "^3.7.7",
+    "mqtt": "^5.3.6",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.1",
+    "ts-loader": "^9.4.3",
+    "typescript": "^5.0.4",
+    "vue": "^2.7.14",
+    "vue-router": "^3.0.0",
+    "vue-template-compiler": "^2.7.14",
+    "webpack": "^5.84.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
+  }
+}

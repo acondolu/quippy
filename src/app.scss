@@ -1,0 +1,151 @@
+$yellow: #fdda12;
+$green: #11e086;
+$my-black: #202124;
+$my-white: #bdc1c6;
+
+$theme-colors: (
+  "primary": $green,
+  "secondary": $yellow
+);
+
+// Then import Bootstrap and BootstrapVue SCSS files (order is important)
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+$my-dark-muted: rgb(108, 117, 125);
+
+html {
+  background-color: $green;
+}
+
+.alert {
+  border-radius: 0;
+}
+
+.btn {
+  border-radius: 1.5rem;
+}
+
+.btn-secondary {}
+
+// @media (prefers-color-scheme: light) {
+//   .btn-primary {
+//     color: white;
+//   } 
+// }
+
+.dropdown-item:hover,
+.dropdown-item:focus,
+.list-group-item-action:hover,
+.list-group-item-action:focus {
+  // color: #fff;
+  // background-color: #fce9da;
+}
+
+.btn-outline-light {
+  border-color: $my-black !important;
+  color: $my-black;
+}
+
+.navbar-dark .navbar-toggler {
+  color: rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark .navbar-brand,
+.navbar {
+  color: $my-black !important;
+}
+
+.card-header {
+  background-color: $green;
+  color: $my-black;
+}
+
+.navbar-expand {
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.main-container {
+  position: fixed;
+  top: env(safe-area-inset-top, 0px);
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  overflow-y: scroll;
+  overflow-x: visible;
+  flex-grow: 1;
+  background-color: white;
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: $my-black;
+    color: $my-white;
+  }
+
+  hr {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .text-light {
+    color: $my-black !important;
+  }
+
+  .list-group-item,
+  .list-group-item.disabled {
+    background-color: $my-black;
+  }
+
+  .b-form-tags.focus,
+  .b-form-tags-input {
+    background-color: $my-black;
+    color: $my-white;
+  }
+
+  .list-group-item-action {
+    color: $my-white;
+  }
+
+  .dropdown-menu {
+    background-color: $my-black;
+  }
+
+  .dropdown-item {
+    color: $my-white;
+  }
+
+  .btn-outline-light:hover {
+    background-color: $my-black;
+    color: $my-white;
+  }
+
+  .form-control,
+  .custom-select,
+  .table,
+  .card {
+    background-color: $my-black;
+    color: $my-white;
+  }
+
+  .form-control:disabled {
+    background-color: $my-black;
+    color: $my-dark-muted;
+    border-color: $my-dark-muted;
+  }
+
+  table {
+    border-color: black;
+  }
+
+  .scroll {
+    background-color: $my-black;
+  }
+}
