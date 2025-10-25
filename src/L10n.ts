@@ -52,6 +52,16 @@ const locale_it: Locale = [
   ["Key:", "Chiave:"],
   ["DELETE_CONFIRM", "Vuoi davvero eliminare \"{0}\"?"],
   ["New Item", "Nuovo articolo"],
+  ["US Dollar ($)", "Dollaro Statunitense ($)"],
+  ["Euro (€)", "Euro (€)"],
+  ["British Pound Sterling (£)", "Sterlina Britannica (£)"],
+  ["Japanese Yen (¥)", "Yen Giapponese (¥)"],
+  ["Indian Rupee (₹)", "Rupia Indiana (₹)"],
+  ["Tunisian Dinar (د.ت)", "Dinaro Tunisino (د.ت)"],
+  ["Chinese Yuan (¥)", "Yuan Cinese (¥)"],
+  ["South Korean Won (₩)", "Won Sudcoreano (₩)"],
+  ["Australian Dollar ($)", "Dollaro Australiano ($)"],
+  ["Canadian Dollar ($)", "Dollaro Canadese ($)"],
 ];
 
 const locale_fr: Locale = [
@@ -106,6 +116,16 @@ const locale_fr: Locale = [
   ["Key:", "Clé:"],
   ["DELETE_CONFIRM", "Voulez-vous vraiment supprimer \"{0}\"?"],
   ["New Item", "Nouvel élément"],
+  ["US Dollar ($)", "Dollar Américain ($)"],
+  ["Euro (€)", "Euro (€)"],
+  ["British Pound Sterling (£)", "Livre Sterling (£)"],
+  ["Japanese Yen (¥)", "Yen Japonais (¥)"],
+  ["Indian Rupee (₹)", "Roupie Indienne (₹)"],
+  ["Tunisian Dinar (د.ت)", "Dinar Tunisien (د.ت)"],
+  ["Chinese Yuan (¥)", "Yuan Chinois (¥)"],
+  ["South Korean Won (₩)", "Won Sud-Coréen (₩)"],
+  ["Australian Dollar ($)", "Dollar Australien ($)"],
+  ["Canadian Dollar ($)", "Dollar Canadien ($)"],
 ];
 
 const locale_en: Locale = [
