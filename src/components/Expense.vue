@@ -20,7 +20,7 @@ import { s } from "../L10n";
 
 export default Vue.extend({
   props: {
-    sync: Object as PropType<SyncManager>,
+    sync: EventTarget as PropType<SyncManager>,
     item: Object as PropType<Transaction>,
   },
   methods: {

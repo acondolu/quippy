@@ -24,7 +24,7 @@
           <b-list-group-item v-for="r in reimbursements" v-bind:key="r.key">
             <strong>{{ r.debtor }}</strong>
             {{ s('will reimburse') }}
-            <strong>{{ r.amount }}€</strong>
+            <strong>{{ r.amount }} {{ r.currency }}</strong>
             {{ s('to') }}
             <strong>{{ r.creditor }}</strong>
           </b-list-group-item>
@@ -51,22 +51,32 @@ import {s} from "../L10n";
 function getBalances(
   items: Transaction[],
   participants: Map<string, Versioned<string>>
-): Map<string, number> {
+): Map<string, Map<string, number>> {
   // First calculate balances by user ID
-  const balancesByUserId: Map<string, number> = new Map();
-  const addToBalance = (uid: string, n: number) => {
-    return balancesByUserId.set(uid, (balancesByUserId.get(uid) || 0) + n);
+  const balancesByUserId: Map<string, Map<string, number>> = new Map();
+  const addToBalance = (uid: string, amt: number, ccy: string) => {
+    let userBalances = balancesByUserId.get(uid);
+    if (!userBalances) {
+      userBalances = new Map();
+      balancesByUserId.set(uid, userBalances);
+    }
+    let bal = userBalances.get(ccy) || 0;
+    userBalances.set(ccy, bal + amt);
+    return userBalances;
   };
+  // const addToBalance = (uid: string, n: number) => {
+    // return balancesByUserId.set(uid, (balancesByUserId.get(uid) || 0) + n);
+  // };
   for (let item of items) {
-    addToBalance(item.paidBy.content, item.amount.content);
+    addToBalance(item.paidBy.content, item.amount.content, item.currency.content);
     let perPersonShare = item.amount.content / item.paidFor.content.length;
     for (let uid of item.paidFor.content) {
-      addToBalance(uid, -perPersonShare);
+      addToBalance(uid, -perPersonShare, item.currency.content);
     }
   }
 
   // Convert user IDs to names in the final balance map
-  const balancesByName: Map<string, number> = new Map();
+  const balancesByName: Map<string, Map<string, number>> = new Map();
   for (let [uid, balance] of balancesByUserId.entries()) {
     const name = participants.get(uid);
     if (!name || balance == null) {
@@ -81,7 +91,35 @@ type Transfer = {
   debtor: string,
   creditor: string,
   amount: string,
+  currency: string,
   key: string,
+}
+
+function computeTransfersCcys(
+  balances: Map<string, Map<string, number>>
+): Transfer[] | undefined {
+  const allCcys = new Set<string>();
+  for (let balMap of balances.values()) {
+    for (let ccy of balMap.keys()) {
+      allCcys.add(ccy);
+    }
+  }
+  // For each currency, compute transfers
+  const transfers: Transfer[] = [];
+  for (let ccy of allCcys) {
+    // Extract balances for this currency
+    const balForCcy: Map<string, number> = new Map();
+    for (let [user, balMap] of balances.entries()) {
+      const bal = balMap.get(ccy) || 0;
+      balForCcy.set(user, bal);
+    }
+    const transfersForCcy = computeTransfers(balForCcy, ccy);
+    if (!transfersForCcy) {
+      return;
+    }
+    transfers.push(...transfersForCcy);
+  }
+  return transfers;
 }
 
 /**
@@ -89,7 +127,8 @@ type Transfer = {
 * Complexity: O(n^2) where n is the number of participants.
 */
 function computeTransfers(
-  balances: Map<string, number>
+  balances: Map<string, number>,
+  currency: string,
 ): Transfer[] | undefined {
   const transfers = [];
   const ROUNDING_TOLERANCE = 0.01;
@@ -127,6 +166,7 @@ function computeTransfers(
       debtor: maxDebtor,
       creditor: maxCreditor,
       amount,
+      currency,
       key: `${maxDebtor}-${maxCreditor}-${amount}`,
     });
   }
@@ -148,7 +188,7 @@ export default Vue.extend({
       this.$router.push({ name: "ledger", params: { id: this.sync.id } });
     },
     onExport() {
-      const csvColumns: string[] = ["Date", "Description", "Amount"];
+      const csvColumns: string[] = ["Date", "Description", "Amount", "Currency"];
       const rows: (string | number)[][] = [csvColumns];
       const participants = this.sync.participantList;
       const defaultRow: any[] = ["", "", 0];
@@ -173,6 +213,7 @@ export default Vue.extend({
         row[0] = item.effective_ts.content;
         row[1] = item.description.content;
         row[2] = amount;
+        row[3] = item.currency.content;
         set(row, paidBy, amount);
         let perPersonShare = amount / paidFor.length;
         for (let p of paidFor) {
@@ -192,20 +233,22 @@ export default Vue.extend({
   },
   computed: {
     items(): {name: string, balance: string}[] {
-      return Array.from(this.balances.entries()).map(([name, amount]) => ({
-        name: name,
-        balance: round(-amount) + " €",
-      }));
+      return Array.from(this.balances.entries()).map(([name, amounts]) =>
+        Array.from(amounts.entries()).map(([ccy, amount]) => ({
+          name: name,
+          balance: round(-amount) + " " + ccy,
+        }))).flat();
     },
-    balances(): Map<string, number> {
+    balances(): Map<string, Map<string, number>> {
       return getBalances(
         this.sync.items,
         this.sync.participants
       );
     },
     reimbursements(): Transfer[] | undefined {
-      // important: make a copy of the map
-      return computeTransfers(new Map(this.balances))
+      // important: make a copy of the map (it will be mutated by computeTransfersCcys)
+      const balancesDeepCopy = structuredClone(this.balances);
+      return computeTransfersCcys(balancesDeepCopy);
     },
     name() {
       return this.sync.name;

@@ -15,7 +15,13 @@
         label-cols-sm="2"
         label-align-sm="right"
       >
-        <b-form-input v-model="amount" :state="evalAmount != null"></b-form-input>
+        <b-input-group>
+          <b-form-input v-model="amount" :state="evalAmount != null"></b-form-input>
+
+          <template #append>
+            <b-form-select v-model="currency" :options="currencies"></b-form-select>
+          </template>
+        </b-input-group>
       </b-form-group>
       <b-form-group
         :label="s('Description')"
@@ -113,7 +119,21 @@ export default Vue.extend({
     },
     evalAmount(): number | null {
       return evalExpr(this.amount);
-    }
+    },
+    currencies(): Array<{value: string, text: string}> {
+      return [
+        {value: "$", text: "US Dollar ($)"},
+        {value: "€", text: "Euro (€)"},
+        {value: "£", text: "British Pound Sterling (£)"},
+        {value: "¥", text: "Japanese Yen (¥)"},
+        {value: "₹", text: "Indian Rupee (₹)"},
+        {value: "TND", text: "Tunisian Dinar (د.ت)"},
+        {value: "¥", text: "Chinese Yuan (¥)"},
+        {value: "₩", text: "South Korean Won (₩)"},
+        {value: "AUD", text: "Australian Dollar ($)"},
+        {value: "CAD", text: "Canadian Dollar ($)"},
+      ];
+    },
   },
 });
 </script>
