@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <div><strong>{{ item.description.content }}</strong></div>
-      <div><strong>{{ round(item.amount.content) }} {{ item.currency.content }}</strong></div>
+      <div><strong>{{ round(item.amount.content) }} {{ ccy }}</strong></div>
     </div>
     <div class="col text-right">
       <div>{{ s('paid by') }} {{paidBy}}</div>
@@ -17,6 +17,7 @@ import { SyncManager } from "../Sync";
 import { Transaction } from "../Ledger";
 import { round } from "../math";
 import { s } from "../L10n";
+import { prettyCcy } from "../Currency";
 
 export default Vue.extend({
   props: {
@@ -39,6 +40,9 @@ export default Vue.extend({
     paidOn(): string {
       const ts = this.item.effective_ts.content;
       return new Date(ts).toDateString();
+    },
+    ccy(): string {
+      return prettyCcy(this.item.currency.content);
     }
   },
 });

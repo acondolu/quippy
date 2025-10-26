@@ -17,7 +17,6 @@
       >
         <b-input-group>
           <b-form-input v-model="amount" :state="evalAmount != null"></b-form-input>
-
           <template #append>
             <b-form-select v-model="currency" :options="currencies"></b-form-select>
           </template>
@@ -120,18 +119,22 @@ export default Vue.extend({
     evalAmount(): number | null {
       return evalExpr(this.amount);
     },
-    currencies(): Array<{value: string, text: string}> {
+    currencies(): Array<{value: string, text: string, disabled?: boolean}> {
       return [
-        {value: "$", text: this.s("US Dollar ($)")},
-        {value: "€", text: this.s("Euro (€)")},
-        {value: "£", text: this.s("British Pound Sterling (£)")},
-        {value: "¥", text: this.s("Japanese Yen (¥)")},
-        {value: "₹", text: this.s("Indian Rupee (₹)")},
-        {value: "TND", text: this.s("Tunisian Dinar (د.ت)")},
-        {value: "¥", text: this.s("Chinese Yuan (¥)")},
-        {value: "₩", text: this.s("South Korean Won (₩)")},
-        {value: "AUD", text: this.s("Australian Dollar ($)")},
-        {value: "CAD", text: this.s("Canadian Dollar ($)")},
+        {value: "EUR", text: this.s("EUR")},
+        {value: "USD", text: this.s("USD")},
+        {value: "GBP", text: this.s("GBP")},
+        {value: "JPY", text: this.s("JPY")},
+        {value: "INR", text: this.s("INR")},
+        {value: "TND", text: this.s("TND")},
+        {value: "CNY", text: this.s("CNY")},
+        {value: "KRW", text: this.s("KRW")},
+        {value: "AUD", text: this.s("AUD")},
+        {value: "CAD", text: this.s("CAD")},
+        {value: "Crypto", text: this.s("Crypto"), disabled: true},
+        {value: "BTC", text: this.s("BTC")},
+        {value: "ETH", text: this.s("ETH")},
+        {value: "XMR", text: this.s("XMR")},
       ];
     },
   },

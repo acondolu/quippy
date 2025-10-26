@@ -259,7 +259,7 @@ export class Ledger extends EventTarget {
       id: crypto.randomUUID(),
       description: versioned("", 0),
       amount: versioned(0, 0),
-      currency: versioned("€", 0),
+      currency: versioned("EUR", 0),
       paidBy: versioned(this.user || "", 0),
       paidFor: versioned(paidFor, 0),
       weights: versioned(new Array(paidFor.length).fill(1), 0),
@@ -307,6 +307,9 @@ export class Transaction {
     }
     this.amount = obj.amount;
     this.currency = obj.currency;
+    // temporary fix
+    if (this.currency.content == "€") this.currency.content = "EUR";
+    if (this.currency.content == "$") this.currency.content = "USD";
     this.paidBy = obj.paidBy;
     this.paidFor = obj.paidFor;
     this.weights = obj.weights;
