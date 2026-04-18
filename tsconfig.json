@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "module": "es6",
-    "removeComments": true,
+    "target": "es2016",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["es2016", "dom"],
+    "jsx": "preserve",
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "moduleResolution": "node",
-    "lib": ["es2016", "dom", "es5", "es6"],
-    "strictNullChecks": true,
-    "strict": true,
-    "types": ["node"],
-    "target": "es2016"
+    "removeComments": true
   },
   "include": ["./src"]
 }
