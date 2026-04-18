@@ -86,7 +86,9 @@ export class SyncManager extends EventTarget {
   }
 
   private onChange(e: CustomEvent) {
-    this.dispatchEvent(e);
+    this.dispatchEvent(new CustomEvent("change", { 
+      detail: e.detail, 
+    }));
     if (e.detail.origin == Origin.LOCAL) {
       this.broadcast();
     }
