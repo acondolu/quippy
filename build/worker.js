@@ -1,4 +1,4 @@
-const RUNTIME = 'runtime-v5';
+const RUNTIME = 'runtime-v6';
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -37,7 +37,9 @@ async function myfetch(request) {
   }
 
   const response = await fetch(request);
-  await cache.put(request, response.clone());
+  if (response.ok) {
+    await cache.put(request, response.clone());
+  }
   return response;
 }
 
