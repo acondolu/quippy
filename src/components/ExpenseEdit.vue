@@ -117,6 +117,11 @@ export default Vue.extend({
       return this.evalAmount == null || !this.paidBy || !this.description;
     },
     evalAmount(): number | null {
+      const amt = this.amount;
+      const filteredAmount = amt.replace(/[^0-9+\-*/().]/g, '');
+      if (filteredAmount !== amt) {
+        this.amount = filteredAmount;
+      }
       return evalExpr(this.amount);
     },
     currencies(): Array<{value: string, text: string, disabled?: boolean}> {
