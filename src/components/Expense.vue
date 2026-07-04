@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col">
       <div><strong>{{ item.description.content }}</strong></div>
-      <div><strong>{{ round(item.amount.content) }} {{ ccy }}</strong></div>
+      <div :class="amountClass"><strong>{{ round(item.amount.content) }} {{ ccy }}</strong></div>
     </div>
     <div class="col text-right">
-      <div>{{ s('paid by') }} {{paidBy}}</div>
-      <div>{{ s('on') }} {{paidOn}} </div>
+      <div><span class="text-muted">{{ s('paid by') }}</span> <strong>{{paidBy}}</strong></div>
+      <div><span class="text-muted">{{ s('on') }} {{paidOn}}</span></div>
     </div>
   </div>
 </template>
@@ -39,10 +39,17 @@ export default Vue.extend({
     },
     paidOn(): string {
       const ts = this.item.effective_ts.content;
-      return new Date(ts).toDateString();
+      const date = new Date(ts);
+      const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(date);
+      const day = String(date.getDate());
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
     },
     ccy(): string {
       return prettyCcy(this.item.currency.content);
+    },
+    amountClass(): string {
+      return this.item.amount.content < 0 ? "text-danger" : "text-success";
     }
   },
 });
