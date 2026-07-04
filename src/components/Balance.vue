@@ -10,6 +10,7 @@
       </b-navbar-brand>
     </b-navbar>
     <div class="scroll">
+
       <b-card class="m-2" no-body>
         <b-table :items="items" flush />
       </b-card>
@@ -30,6 +31,30 @@
           </b-list-group-item>
         </b-list-group>
       </b-card>
+
+      <b-card class="m-2" v-if="isCompo">
+        <template #header>
+          <h4 class="mb-0">
+            {{ s('Exchange Rates') }}
+          </h4>
+        </template>
+        <b-card-text>
+          {{ s('This list contains multiple currencies. Input exchange rates down here to convert all into Euros.') }}
+          {{ s('1 EUR = ...') }}
+        </b-card-text>
+        <b-list-group flush>
+          <b-list-group-item v-for="ccy in ccys" v-bind:key="ccy">
+            <b-input-group :append="ccy">
+              <b-form-input></b-form-input>
+            </b-input-group>
+          </b-list-group-item>
+        </b-list-group>
+        <b-button @click="saveFXs" variant="primary" class="mt-2">
+          <b-icon icon="save" />
+          {{ s('Save Exchange Rates') }}
+        </b-button>
+      </b-card>
+
     </div>
     <b-navbar type="light" variant="primary">
       <b-button @click="onExport" variant="secondary">
@@ -47,6 +72,7 @@ import { Transaction } from "../Ledger";
 import { UserID, Versioned } from "../Utils";
 import { round } from "../math";
 import {s} from "../L10n";
+import {prettyCcy} from "../Currency";
 
 function getBalances(
   items: Transaction[],
@@ -96,14 +122,9 @@ type Transfer = {
 }
 
 function computeTransfersCcys(
-  balances: Map<string, Map<string, number>>
+  balances: Map<string, Map<string, number>>,
+  allCcys: Set<string>,
 ): Transfer[] | undefined {
-  const allCcys = new Set<string>();
-  for (let balMap of balances.values()) {
-    for (let ccy of balMap.keys()) {
-      allCcys.add(ccy);
-    }
-  }
   // For each currency, compute transfers
   const transfers: Transfer[] = [];
   for (let ccy of allCcys) {
@@ -166,7 +187,7 @@ function computeTransfers(
       debtor: maxDebtor,
       creditor: maxCreditor,
       amount,
-      currency,
+      currency: prettyCcy(currency),
       key: `${maxDebtor}-${maxCreditor}-${amount}`,
     });
   }
@@ -229,14 +250,17 @@ export default Vue.extend({
     },
     s(str: string): string {
       return s(str);
-    }
+    },
+    saveFXs() {
+      // TODO
+    },
   },
   computed: {
     items(): {name: string, balance: string}[] {
       return Array.from(this.balances.entries()).map(([name, amounts]) =>
         Array.from(amounts.entries()).map(([ccy, amount]) => ({
           name: name,
-          balance: round(-amount) + " " + ccy,
+          balance: round(-amount) + " " + prettyCcy(ccy),
         }))).flat();
     },
     balances(): Map<string, Map<string, number>> {
@@ -248,10 +272,25 @@ export default Vue.extend({
     reimbursements(): Transfer[] | undefined {
       // important: make a copy of the map (it will be mutated by computeTransfersCcys)
       const balancesDeepCopy = structuredClone(this.balances);
-      return computeTransfersCcys(balancesDeepCopy);
+      return computeTransfersCcys(balancesDeepCopy, this.ccys);
     },
     name() {
       return this.sync.name;
+    },
+    // FX
+    ccys(): Set<string> {
+      const ccys_ = new Set<string>();
+      for (let balMap of this.balances.values()) {
+        for (let ccy of balMap.keys()) {
+          ccys_.add(ccy);
+        }
+      }
+      return ccys_;
+    },
+    isCompo(): boolean {
+      // FIXME: TODO
+      return false;
+      // return this.ccys.size > 1;
     },
   },
 });
