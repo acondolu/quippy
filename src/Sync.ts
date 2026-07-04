@@ -159,12 +159,13 @@ export class SyncManager extends EventTarget {
     try {
       data = await this.crypto!.decryptMessage(msg.data);
     } catch {
-      console.log("bad message");
+      console.debug("onMessage", "bad decrypt");
       return;
     }
     const obj: RemoteMessage = JSON.parse(new TextDecoder("utf-8").decode(data));
-    console.log("onMessage", obj, obj.device == this.deviceId);
+    console.debug("onMessage", obj, obj.device == this.deviceId);
     if (obj.device == this.deviceId) {
+      // message from myself, ignore
       return;
     }
     switch (obj.tag) {
